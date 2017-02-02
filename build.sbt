@@ -1,8 +1,8 @@
 version := "1.0.0"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
-name := "angular-spray-seed"
+name := "referee"
 
 // webapp task
 resourceGenerators in Compile <+= (resourceManaged, baseDirectory) map { (managedBase, base) =>
@@ -23,16 +23,22 @@ watchSources <++= baseDirectory map { path => ((path / "src" / "main" / "webapp"
 
 resolvers += "spray repo" at "http://repo.spray.io"
 
+val AKKA_VERSION = "2.3.12"
+val SPRAY_VERSION = "1.3.1"
+
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-actor" % "2.3.12",
-  "com.typesafe.akka" %% "akka-remote" % "2.3.12",
-  "com.typesafe.akka" %% "akka-testkit" % "2.3.12",
-  "com.typesafe.akka" %% "akka-slf4j" % "2.3.12",
-  "ch.qos.logback" % "logback-classic" % "1.0.13",
-  "io.spray" %% "spray-client" % "1.3.1",
-  "io.spray" %% "spray-can" % "1.3.1",
-  "io.spray" %% "spray-routing" % "1.3.1",
-  "io.spray" %% "spray-json" % "1.3.1"
+  "com.typesafe.akka" %% "akka-actor" % AKKA_VERSION,
+  "com.typesafe.akka" %% "akka-remote" % AKKA_VERSION,
+  "com.typesafe.akka" %% "akka-testkit" % AKKA_VERSION,
+  "com.typesafe.akka" %% "akka-slf4j" % AKKA_VERSION,
+  "ch.qos.logback" % "logback-classic" % "1.1.7",
+  "io.spray" %% "spray-client" % SPRAY_VERSION,
+  "io.spray" %% "spray-can" % SPRAY_VERSION,
+  "io.spray" %% "spray-routing" % SPRAY_VERSION,
+  "io.spray" %% "spray-json" % SPRAY_VERSION,
+  "org.scalikejdbc" %% "scalikejdbc" % "2.5.0",
+  "mysql" % "mysql-connector-java" % "5.1.39",
+  "com.zaxxer" % "HikariCP" % "2.4.7"
 )
 
 scalacOptions ++= Seq(

@@ -1,6 +1,6 @@
-package service
+package com.nflpickem.referee
 
-import akka.actor.{ ExtendedActorSystem, Extension, ExtensionKey }
+import akka.actor.{ExtendedActorSystem, Extension, ExtensionKey}
 
 object ServiceSettings extends ExtensionKey[ServiceSettings]
 
