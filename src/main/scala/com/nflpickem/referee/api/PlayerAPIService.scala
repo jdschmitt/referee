@@ -15,7 +15,13 @@ trait PlayerAPIService extends HttpService {
     path( "players" ) {
       get {
         complete {
-          PlayerService.allUsers
+          PlayerService.allPlayers
+        }
+      }
+    } ~ path("rankedPlayers") {
+      get {
+        complete {
+          PlayerService.rankedPlayers
         }
       }
     }
