@@ -7,6 +7,7 @@ import com.nflpickem.referee.db.{RefereeMySqlConfig, RefereeMySqlConnectionPool}
 import spray.can.Http
 
 import scala.io.StdIn
+import scala.util.Properties
 
 
 /**
@@ -55,7 +56,7 @@ object Referee {
 
     // start a new HTTP server on port 8080 with our service actor as the handler
     val interface = ServiceSettings(system).interface
-    val port = ServiceSettings(system).port
+    val port = Properties.envOrElse("PORT", ServiceSettings(system).port).toInt
     IO(Http) ! Http.Bind(service, interface, port)
 
     Console.println(s"Server started ${system.name}, $interface:$port")
