@@ -1,5 +1,6 @@
 # sbt
 .history
+project/boot
 boot/
 lib_managed/
 target/

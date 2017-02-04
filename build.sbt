@@ -4,6 +4,8 @@ scalaVersion := "2.11.8"
 
 name := "referee"
 
+enablePlugins(JavaAppPackaging)
+
 // webapp task
 resourceGenerators in Compile <+= (resourceManaged, baseDirectory) map { (managedBase, base) =>
   val webappBase = base / "src" / "main" / "webapp"
