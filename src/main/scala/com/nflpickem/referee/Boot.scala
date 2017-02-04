@@ -55,7 +55,8 @@ object Referee {
     val service = system.actorOf(Props[RefereeServiceActor], "service-actor")
 
     // start a new HTTP server on port 8080 with our service actor as the handler
-    val interface = ServiceSettings(system).interface
+//    val interface = ServiceSettings(system).interface
+    val interface = "0.0.0.0"
     val port = Properties.envOrElse("PORT", ServiceSettings(system).port).toInt
     IO(Http) ! Http.Bind(service, interface, port)
 
