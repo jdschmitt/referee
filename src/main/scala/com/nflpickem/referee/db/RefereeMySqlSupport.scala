@@ -22,7 +22,6 @@ object RefereeMySqlConnectionPool {
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true")
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250")
         hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
-//        hikariConfig.setMetricRegistry(co.zing.k2.MetricsRegistry)
         hikariConfig.setPoolName("default-mysql-pool")
         new HikariDataSource(hikariConfig)
       }

@@ -8,7 +8,8 @@ import com.typesafe.config.Config
 case class RefereeMySqlConfig(host:String, port:Int = 3306, database:String,
                               user:String, password:String, poolSize:Int) {
 
-  val jdbcUrl = s"jdbc:mysql://$host:$port/$database"
+//  val jdbcUrl = s"jdbc:mysql://$host:$port/$database"
+  val jdbcUrl = s"jdbc:mysql://$host/$database"
 }
 
 object RefereeMySqlConfig {
