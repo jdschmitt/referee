@@ -50,6 +50,8 @@ object Referee {
     }
   }
 
+  Console.println(s"Environment: $RefereeEnv")
+
   def startHttpServer(): Unit = {
     // create and start our service actor
     val service = system.actorOf(Props[RefereeServiceActor], "service-actor")
