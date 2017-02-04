@@ -11,20 +11,18 @@ object RefereeMySqlConnectionPool {
 
   lazy val datasource = {
     mysqlConfig match {
-      case Some(config) => {
+      case Some(config) =>
         val hikariConfig = new HikariConfig()
         Class.forName(RefereeMySqlConfig.DriverClass)
         hikariConfig.setJdbcUrl(config.jdbcUrl)
         hikariConfig.setUsername(config.user)
         hikariConfig.setPassword(config.password)
-        System.out.println(s"Setting connection pool size: ${config.poolSize}")
         hikariConfig.setMaximumPoolSize(config.poolSize)
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true")
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250")
         hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
         hikariConfig.setPoolName("default-mysql-pool")
         new HikariDataSource(hikariConfig)
-      }
 
       case None =>
         throw new IllegalStateException("Attempted to start datasource without MySQL configuration set, please call startup()")
@@ -34,7 +32,7 @@ object RefereeMySqlConnectionPool {
   /**
     * Must be called before any actors are created.
     *
-    * @param config
+    * @param config The configuration details for the DB connection
     */
   def startup(config: RefereeMySqlConfig): Unit = this.synchronized {
     mysqlConfig = Option(config)

@@ -5,10 +5,10 @@ import com.typesafe.config.Config
 /**
   * Created by jason on 1/31/17.
   */
-case class RefereeMySqlConfig(host:String, port:Int = 3306, database:String,
+// NOTE: No port used here...didn't seem to be necessary either locally or heroku (where port was actually a problem)
+case class RefereeMySqlConfig(host:String, database:String,
                               user:String, password:String, poolSize:Int) {
 
-//  val jdbcUrl = s"jdbc:mysql://$host:$port/$database"
   val jdbcUrl = s"jdbc:mysql://$host/$database"
 }
 
@@ -19,7 +19,6 @@ object RefereeMySqlConfig {
 
   def apply(config:Config):RefereeMySqlConfig = RefereeMySqlConfig(
     host = config.getString("host"),
-    port = if(config.hasPath("port")) config.getInt("port") else 3306,
     database = config.getString("database"),
     user = config.getString("user"),
     password = config.getString("password"),
