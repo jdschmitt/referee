@@ -14,7 +14,7 @@ case class RefereeMySqlConfig(host:String, port:Int = 3306, database:String,
 object RefereeMySqlConfig {
   val DriverClass = "com.mysql.jdbc.Driver"
 
-  private val DEFAULT_POOL_SIZE = 36
+  private val DEFAULT_POOL_SIZE = 10
 
   def apply(config:Config):RefereeMySqlConfig = RefereeMySqlConfig(
     host = config.getString("host"),

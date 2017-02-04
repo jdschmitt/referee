@@ -17,6 +17,7 @@ object RefereeMySqlConnectionPool {
         hikariConfig.setJdbcUrl(config.jdbcUrl)
         hikariConfig.setUsername(config.user)
         hikariConfig.setPassword(config.password)
+        System.out.println(s"Setting connection pool size: ${config.poolSize}")
         hikariConfig.setMaximumPoolSize(config.poolSize)
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true")
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250")
