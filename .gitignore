@@ -30,11 +30,11 @@ out/
 .DS_Store
 
 # node
-# node_modules/
+node_modules/
 
 # Angular App extras
 .idea
-# node_modules
+node_modules
 jspm_packages
 npm-debug.log
 debug.log
