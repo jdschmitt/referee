@@ -51,3 +51,7 @@ scalacOptions ++= Seq(
   "-target:jvm-1.8",
   "-encoding", "UTF-8"
 )
+
+val additionalClasses = file("webapp/client")
+
+unmanagedClasspath in Compile += additionalClasses
