@@ -18,6 +18,13 @@ trait SettingsAPIService extends HttpService {
           SettingsService.get
         }
       }
+    } ~
+    path( "currentWeek" ) {
+      get {
+        complete {
+          SettingsService.currentWeek
+        }
+      }
     }
 
 }

@@ -40,7 +40,8 @@ libraryDependencies ++= Seq(
   "io.spray" %% "spray-json" % SPRAY_VERSION,
   "org.scalikejdbc" %% "scalikejdbc" % "2.5.0",
   "mysql" % "mysql-connector-java" % "5.1.39",
-  "com.zaxxer" % "HikariCP" % "2.4.7"
+  "com.zaxxer" % "HikariCP" % "2.4.7",
+  "joda-time" % "joda-time" % "2.9.7"
 )
 
 scalacOptions ++= Seq(
