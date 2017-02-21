@@ -4,6 +4,7 @@ import akka.actor.{ActorSystem, Props}
 import akka.io.IO
 import com.nflpickem.referee.api.RefereeServiceActor
 import com.nflpickem.referee.db.RefereeMySqlConnectionPool
+import org.flywaydb.core.Flyway
 import spray.can.Http
 
 import scala.io.StdIn
@@ -62,8 +63,17 @@ object Referee {
     Console.println("Type `exit` to exit....")
   }
 
-  def initialize():Unit = {
+  def initialize(): Unit = {
+    migrateDb()
     startDbConnectionPool()
+  }
+
+  def migrateDb(): Unit = {
+    val flyway = new Flyway()
+    flyway.setDataSource(MySqlConfig.jdbcUrl, MySqlConfig.user, MySqlConfig.password)
+
+    flyway.setBaselineOnMigrate(false)
+    flyway.migrate()
   }
 
 }

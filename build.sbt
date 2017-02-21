@@ -41,7 +41,8 @@ libraryDependencies ++= Seq(
   "org.scalikejdbc" %% "scalikejdbc" % "2.5.0",
   "mysql" % "mysql-connector-java" % "5.1.39",
   "com.zaxxer" % "HikariCP" % "2.4.7",
-  "joda-time" % "joda-time" % "2.9.7"
+  "joda-time" % "joda-time" % "2.9.7",
+  "org.flywaydb" % "flyway-core" % "4.1.1"
 )
 
 scalacOptions ++= Seq(
@@ -56,3 +57,9 @@ scalacOptions ++= Seq(
 val additionalClasses = file("webapp/client")
 
 unmanagedClasspath in Compile += additionalClasses
+
+flywayUrl := "jdbc:mysql://localhost:3306/pickem"
+
+flywayUser := "root"
+
+flywayPassword := ""
