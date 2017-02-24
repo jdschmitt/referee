@@ -15,14 +15,14 @@ trait SettingsAPIService extends HttpService {
     path( "settings" ) {
       get {
         complete {
-          SettingsService.get
+          SettingsService.getSettings
         }
       }
     } ~
     path( "currentWeek" ) {
       get {
         complete {
-          SettingsService.currentWeek
+          SeasonService.currentWeek
         }
       }
     }
