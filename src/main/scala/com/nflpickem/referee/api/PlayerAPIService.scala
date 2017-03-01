@@ -18,10 +18,16 @@ trait PlayerAPIService extends HttpService {
           PlayerService.allPlayers
         }
       }
-    } ~ path("rankedPlayers") {
+    } ~ path("mainPotRanking") {
       get {
         complete {
-          PlayerService.rankedPlayers
+          PlayerService.mainPotRanking()
+        }
+      }
+    } ~ path("secondPotRanking") {
+      get {
+        complete {
+          PlayerService.secondPotRanking()
         }
       }
     }

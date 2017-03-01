@@ -11,15 +11,25 @@ import scalikejdbc._
   */
 object SeasonService extends Whistle {
 
-  def getCurrentSeason: Option[Season] = DB.readOnly { implicit session =>
+  def currentSeason: Option[Season] = DB.readOnly { implicit session =>
+    // TODO Cache this query
     sql"""
-      SELECT * FROM season a
-      JOIN settings b on a.id = b.current_season_id
+      SELECT * FROM season ORDER BY first_reg_game_date DESC LIMIT 1;
     """.map(Season.fromDb).single().apply()
   }
 
+  def currentSeasonId(seasonIdOpt: Option[Long]): Long =
+    if (seasonIdOpt.isDefined) seasonIdOpt.get
+    else {
+      val curSeason: Option[Season] = currentSeason
+      if (curSeason.isEmpty) {
+        log.error("Could not read current season from DB!!")
+        -1
+      } else curSeason.get.id
+    }
+
   def currentWeek: CurrentWeek = DB.readOnly { implicit session =>
-    val seasonOpt = SeasonService.getCurrentSeason
+    val seasonOpt = SeasonService.currentSeason
     if (seasonOpt.isEmpty) {
       log.error("Could not read current season from DB!!")
       return CurrentWeek(-1)
