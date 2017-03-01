@@ -1,4 +1,4 @@
-package com.nflpickem.referee
+package com.nflpickem.referee.service
 
 import com.nflpickem.referee.api.SeasonService
 import com.nflpickem.referee.model.{Player, RankedPlayer}

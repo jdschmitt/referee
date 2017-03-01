@@ -1,5 +1,6 @@
-package com.nflpickem.referee
+package com.nflpickem.referee.service
 
+import com.nflpickem.referee.Whistle
 import com.nflpickem.referee.model.Settings
 import scalikejdbc._
 

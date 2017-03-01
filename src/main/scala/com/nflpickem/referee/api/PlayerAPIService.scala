@@ -1,6 +1,6 @@
 package com.nflpickem.referee.api
 
-import com.nflpickem.referee.PlayerService
+import com.nflpickem.referee.service.PlayerService
 import spray.routing.HttpService
 
 /**
