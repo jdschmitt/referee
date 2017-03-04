@@ -21,7 +21,7 @@ trait RefereeAPIService extends HttpService
   val context:ActorContext
 
   def webappRoute: Route =
-    path("")(getFromResource("webapp/client/index.html")) ~ getFromResourceDirectory("webapp/client")
+    path("")(getFromResource("webapp/src/index.html")) ~ getFromResourceDirectory("webapp/src")
 
   def route = respondWithHeader(RawHeader("Access-Control-Allow-Origin", "*")) {
     playersRoute ~ settingsRoute ~ webappRoute

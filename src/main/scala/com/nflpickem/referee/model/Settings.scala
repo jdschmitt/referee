@@ -7,7 +7,7 @@ import spray.json.DefaultJsonProtocol
 /**
   * Created by jason on 2/1/17.
   */
-case class Settings(commishNote:String, leaguePassword:String, secondPotStartWeek:Int, winnersPerWeek:Int, currentSeasonId:Long)
+case class Settings(commishNote:String, leaguePassword:String, secondPotStartWeek:Int, winnersPerWeek:Int, seasonId:Long)
 
 object Settings {
 
@@ -16,8 +16,8 @@ object Settings {
     val pass = rs.string("league_password")
     val secondPotStart = rs.int("second_pot_start_week")
     val winnersPerWeek = rs.int("winners_per_week")
-    val currentSeasonId = rs.long("current_season_id")
-    Settings(note, pass, secondPotStart, winnersPerWeek, currentSeasonId)
+    val seasonId = rs.long("season_id")
+    Settings(note, pass, secondPotStart, winnersPerWeek, seasonId)
   }
 
 }

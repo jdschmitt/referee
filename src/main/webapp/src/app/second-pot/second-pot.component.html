@@ -1,0 +1,23 @@
+<div>
+  <div id="second-pot-header" class="row"><div class="week-header col-sm-12">Week {{currentWeek}}</div></div>
+  <div id="second-pot-body" class="row">
+    <div id="ranked-list-cell" class="col-sm-12">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Season Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let player of players; let i = index;">
+          <td>{{ player.rank }}</td>
+          <td>{{ player.firstName }} {{ player.lastName }}</td>
+          <td>{{ player.total }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

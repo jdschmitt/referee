@@ -1,0 +1,19 @@
+#second-pot-header {
+  text-align: center; }
+
+#second-pot-body {
+  margin: 0px 50px;
+}
+
+#ranked-list-cell tr {
+  width: 100%;
+  display: inline-table;
+  table-layout: fixed; }
+
+#ranked-list-cell table {
+  display: -moz-groupbox; }
+
+#ranked-list-cell tbody {
+  overflow-y: scroll;
+  height: 500px;
+  position: absolute; }
