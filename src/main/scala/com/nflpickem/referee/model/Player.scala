@@ -1,7 +1,7 @@
 package com.nflpickem.referee.model
 
 import scalikejdbc.WrappedResultSet
-import spray.json.DefaultJsonProtocol
+import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
 /**
   * Created by jason on 2/1/17.
@@ -35,6 +35,6 @@ object RankedPlayer {
 }
 
 object PlayerJsonProtocol extends DefaultJsonProtocol {
-  implicit val playerFormat = jsonFormat4(Player.apply)
-  implicit val rankedPlayerFormat = jsonFormat5(RankedPlayer.apply)
+  implicit val playerFormat: RootJsonFormat[Player] = jsonFormat4(Player.apply)
+  implicit val rankedPlayerFormat: RootJsonFormat[RankedPlayer] = jsonFormat5(RankedPlayer.apply)
 }

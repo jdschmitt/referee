@@ -1,6 +1,6 @@
 package com.nflpickem.referee.api
 
-import akka.actor.ActorContext
+import akka.actor.{Actor, ActorContext}
 import spray.http.HttpHeaders.RawHeader
 import spray.routing._
 
@@ -10,21 +10,22 @@ import spray.routing._
 
 class RefereeServiceActor extends HttpServiceActor with RefereeAPIService {
 
-  def receive = runRoute(route)
+  def receive: Actor.Receive = runRoute(route)
 
 }
 
 trait RefereeAPIService extends HttpService
   with PlayerAPIService
-  with SettingsAPIService {
+  with SettingsAPIService
+  with TeamAPIService {
 
   val context:ActorContext
 
   def webappRoute: Route =
-    path("")(getFromResource("webapp/src/index.html")) ~ getFromResourceDirectory("webapp/src")
+    path("")(getFromResource("webapp/dist/index.html")) ~ getFromResourceDirectory("webapp/dist")
 
-  def route = respondWithHeader(RawHeader("Access-Control-Allow-Origin", "*")) {
-    playersRoute ~ settingsRoute ~ webappRoute
+  def route: Route = respondWithHeader(RawHeader("Access-Control-Allow-Origin", "*")) {
+    playersRoute ~ settingsRoute ~ webappRoute ~ teamsRoute
   }
 
 }

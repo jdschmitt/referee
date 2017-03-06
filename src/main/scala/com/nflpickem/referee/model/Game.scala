@@ -1,5 +1,6 @@
 package com.nflpickem.referee.model
 
+import com.nflpickem.referee.service.TeamService
 import org.joda.time.DateTime
 import scalikejdbc.WrappedResultSet
 
@@ -15,9 +16,9 @@ object Game {
     val id: Long = rs.long("id")
     val gameTime: DateTime = rs.jodaDateTime("game_time")
     val awayScore: Option[Int] = rs.intOpt("away_score")
-    val awayTeam: Team = Team.fromAbbreviation(rs.string("away_team"))
+    val awayTeam: Team = TeamService.getForAbbreviation(rs.string("away_team")).get
     val homeScore: Option[Int] = rs.intOpt("home_score")
-    val homeTeam: Team = Team.fromAbbreviation(rs.string("home_team"))
+    val homeTeam: Team = TeamService.getForAbbreviation(rs.string("home_team")).get
     val line: Float = rs.float("line")
     val offensiveYards: Option[Float] = rs.floatOpt("offensive_yards")
     val overUnder: Option[Float] = rs.floatOpt("over_under")

@@ -2,7 +2,7 @@ package com.nflpickem.referee.model
 
 import com.nflpickem.referee.api.CurrentWeek
 import scalikejdbc.WrappedResultSet
-import spray.json.DefaultJsonProtocol
+import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
 /**
   * Created by jason on 2/1/17.
@@ -23,6 +23,6 @@ object Settings {
 }
 
 object SettingsJsonProtocol extends DefaultJsonProtocol {
-  implicit val settingsFormat = jsonFormat5(Settings.apply)
-  implicit val currentWeekFormat = jsonFormat1(CurrentWeek.apply)
+  implicit val settingsFormat: RootJsonFormat[Settings] = jsonFormat5(Settings.apply)
+  implicit val currentWeekFormat: RootJsonFormat[CurrentWeek] = jsonFormat1(CurrentWeek.apply)
 }

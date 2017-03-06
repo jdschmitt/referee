@@ -6,17 +6,6 @@ name := "referee"
 
 enablePlugins(JavaAppPackaging)
 
-// webapp task
-resourceGenerators in Compile <+= (resourceManaged, baseDirectory) map { (managedBase, base) =>
-  val webappBase = base / "src" / "main" / "webapp"
-  for {
-    (from, to) <- webappBase ** "*" x rebase(webappBase, managedBase / "main" / "webapp")
-  } yield {
-    Sync.copy(from, to)
-    to
-  }
-}
-
 // spray-resolver setting
 seq(Revolver.settings: _*)
 
@@ -63,3 +52,24 @@ flywayUrl := "jdbc:mysql://localhost:3306/pickem"
 flywayUser := "root"
 
 flywayPassword := ""
+
+lazy val buildFrontEnd = taskKey[Unit]("Execute the npm build command to build the ui")
+
+buildFrontEnd := {
+  val s: TaskStreams = streams.value
+  s.log.info("Building front-end")
+  val shell: Seq[String] = Seq("bash", "-c")
+  // TODO Surely there is a way to clean this up better but this works!
+  val npmInstall: Seq[String] = shell :+ "cd src/main/webapp && npm install && npm run build"
+
+  if ((npmInstall !) == 0) {
+    s.log.success("Successfully built front-end.")
+  } else {
+    throw new IllegalStateException("Failed to build front-end.")
+  }
+}
+
+// Executes when running within IDE
+(run in Compile) <<= (run in Compile).dependsOn(buildFrontEnd)
+// Executes when running "sbt compile"
+compile <<= (compile in Compile) dependsOn buildFrontEnd
