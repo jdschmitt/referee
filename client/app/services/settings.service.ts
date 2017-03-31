@@ -12,7 +12,6 @@ export class SettingsService extends BaseService {
   }
 
   getCurrentWeek() {
-    console.log("Base URL: " + this.baseURL);
     return this.get(this.URIs.currentWeek).map((res:Response) => res.json());
   }
 
