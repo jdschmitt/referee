@@ -1,0 +1,19 @@
+/.idea/
+src_managed/
+test-output/
+*.iml
+.classpath_nb
+
+node_modules/
+webapp/
+
+.DS_Store
+
+# sbt
+.history
+project/boot
+boot/
+lib_managed/
+target/
+/project/boot/
+/project/plugins/project
