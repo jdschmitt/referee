@@ -1,3 +1,4 @@
+
 INSERT INTO team (abbreviation, market, mascot)
 VALUES
   ('ARI', 'Arizona', 'Cardinals'),
@@ -16,7 +17,7 @@ VALUES
   ('IND', 'Indianapolis', 'Colts'),
   ('JAX', 'Jacksonville', 'Jaguars'),
   ('KC', 'Kansas City', 'Chiefs'),
-  ('LAI', 'Los Angeles', 'Raiders'),
+  ('OAK', 'OAKLAND', 'Raiders'),
   ('LAM', 'Los Angeles', 'Rams'),
   ('MIA', 'Miami', 'Dolphins'),
   ('MIN', 'Minnesota', 'Vikings'),

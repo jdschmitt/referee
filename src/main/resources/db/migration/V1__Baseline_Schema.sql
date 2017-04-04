@@ -57,39 +57,6 @@ CREATE TABLE `game` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `live_score`
---
-
-DROP TABLE IF EXISTS `live_score`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `live_score` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `version` bigint(20) NOT NULL,
-  `json` longtext NOT NULL,
-  `week_number` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `logs`
---
-
-DROP TABLE IF EXISTS `logs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `logs` (
-  `log_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `time_stamp` datetime NOT NULL,
-  `logger` varchar(255) NOT NULL,
-  `priority` varchar(255) NOT NULL,
-  `message` text NOT NULL,
-  PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `pick`
 --
 
@@ -104,7 +71,7 @@ CREATE TABLE `pick` (
   `offensive_yards` float DEFAULT NULL,
   `over_under` float DEFAULT NULL,
   `player_id` bigint(20) NOT NULL,
-  `team` varchar(255) NOT NULL,
+  `team` int(10) NOT NULL,
   `week_number` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `game_id` (`game_id`,`player_id`),
@@ -143,26 +110,6 @@ CREATE TABLE `player` (
   `registration_key` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `player_activity`
---
-
-DROP TABLE IF EXISTS `player_activity`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `player_activity` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `version` bigint(20) NOT NULL,
-  `ip_address` varchar(255) NOT NULL,
-  `is_logged_in` bit(1) NOT NULL,
-  `last_activity_date` datetime NOT NULL,
-  `player_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `player_id` (`player_id`),
-  KEY `FKC5CC36AD4449EDCA` (`player_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -17,6 +17,7 @@ import { PlayersService } from "./services/players.service";
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import {CommonModule} from "@angular/common";
 import { FooterComponent } from './footer/footer.component';
+import { MyPicksComponent } from './my-picks/my-picks.component';
 
 @NgModule({
   imports:      [
@@ -34,7 +35,8 @@ import { FooterComponent } from './footer/footer.component';
     HomeComponent,
     MainNavComponent,
     SecondPotComponent,
-    FooterComponent
+    FooterComponent,
+    MyPicksComponent
   ],
   providers: [
     AuthService,
