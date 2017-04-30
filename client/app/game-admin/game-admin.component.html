@@ -1,0 +1,25 @@
+<div id="game-admin">
+  <div id="games-table-container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th><input type="checkbox" title="Toggle select all"></th>
+        <th>Away</th>
+        <th>Line</th>
+        <th>Home</th>
+        <th>Game time (CT)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        games listed here
+      </tr>
+      </tbody>
+    </table>
+    <div id="action-buttons">
+      <button id="btn-add-game" class="btn-primary" (click)="openModal()">Add Game</button>
+    </div>
+  </div>
+</div>
+
+<add-game-modal></add-game-modal>

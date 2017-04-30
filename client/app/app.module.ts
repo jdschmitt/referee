@@ -15,9 +15,12 @@ import { SettingsService } from "./services/settings.service";
 import { PlayersService } from "./services/players.service";
 
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-import {CommonModule} from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { FooterComponent } from './footer/footer.component';
-import { MyPicksComponent } from './my-picks/my-picks.component';
+import { GameAdminComponent } from './game-admin/game-admin.component';
+import { AddGameModalComponent } from './add-game-modal/add-game-modal.component';
+import { DatetimePickerDirective } from './datetime-picker.directive';
+import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
 
 @NgModule({
   imports:      [
@@ -27,7 +30,8 @@ import { MyPicksComponent } from './my-picks/my-picks.component';
     routing,
     Ng2Bs3ModalModule,
     HttpModule,
-    JsonpModule
+    JsonpModule,
+    Ng2DatetimePickerModule
   ],
   declarations: [
     AppComponent,
@@ -36,7 +40,9 @@ import { MyPicksComponent } from './my-picks/my-picks.component';
     MainNavComponent,
     SecondPotComponent,
     FooterComponent,
-    MyPicksComponent
+    GameAdminComponent,
+    AddGameModalComponent,
+    DatetimePickerDirective
   ],
   providers: [
     AuthService,
