@@ -13,6 +13,7 @@ import { SecondPotComponent } from "./second-pot/second-pot.component";
 import { AuthService } from "./services/auth.service";
 import { SettingsService } from "./services/settings.service";
 import { PlayersService } from "./services/players.service";
+import { TeamsService } from "./services/teams.service";
 
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { CommonModule } from "@angular/common";
@@ -47,7 +48,8 @@ import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
   providers: [
     AuthService,
     SettingsService,
-    PlayersService
+    PlayersService,
+    TeamsService
   ],
   bootstrap:    [ AppComponent ]
 })

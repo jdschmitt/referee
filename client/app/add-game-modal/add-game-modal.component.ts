@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { GAME_TYPES_COLLECTION } from '../constants';
+import { TeamsService } from '../services/teams.service';
 
 export class AddGameDetails {
   constructor(
       public awayTeam: string,      // abbreviation
       public homeTeam: string,      // abbreviation
-      public line: number,      // signed float
-      public gameTime: string,  //
-      public gameType: string
+      public line: number,          // signed float
+      public gameTime: string,      // MM-DD-YYYY hh:mm (see html template)
+      public gameType: string       // abbreviation
   ) { }
 }
 
@@ -23,12 +24,35 @@ export class AddGameModalComponent implements OnInit {
 
   @ViewChild(ModalComponent) modal: ModalComponent;
   gameTypes = GAME_TYPES_COLLECTION;
-  details = new AddGameDetails(null, null, null, null, null);
+  details: AddGameDetails = new AddGameDetails(null, null, null, null, null);
+  allTeams: any[];
+  awayTeams: any[];
+  homeTeams: any[];
 
-  constructor() {
+  constructor(
+      private teamsService: TeamsService
+  ) {
   }
 
   ngOnInit() {
+    this.teamsService.getTeams().subscribe(
+        data => {
+          this.allTeams = data;
+          this.awayTeams = this.allTeams.slice();
+          this.homeTeams = this.allTeams.slice();
+        },
+        error => console.log("Error calling /teams: ", error)
+    );
+  }
+
+  onTeamChange(which) {
+    console.log(which + " team changed");
+    // Remove other selection from possible values
+    if (which === 'away') {
+      // TODO Remove selected away team from home teams list
+    } else if (which === 'home') {
+      // TODO Remove selected home team from away teams list
+    }
   }
 
   ngAfterViewInit() {
@@ -53,7 +77,4 @@ export class AddGameModalComponent implements OnInit {
     return this.modal.close();
   }
 
-  getGameTypes() {
-    return this.gameTypes;
-  }
 }
