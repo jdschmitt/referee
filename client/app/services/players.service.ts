@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {BaseService} from "./base.service";
 
@@ -9,7 +9,7 @@ export class PlayersService extends BaseService{
   URIs = {
     mainPotRanking: '/mainPotRanking',
     secondPotRanking: "/secondPotRanking"
-  }
+  };
 
   getMainPotRanking() {
     return this.get(this.URIs.mainPotRanking).map((res:Response) => res.json());
