@@ -16,4 +16,8 @@ object TeamService {
     sql"SELECT * FROM team WHERE abbreviation = $abbrev".map(Team.fromDb).single().apply()
   }
 
+  def getById(id: Int): Option[Team] = DB.readOnly { implicit seassion =>
+    sql"SELECT * FROM team WHERE id = $id".map(Team.fromDb).single().apply()
+  }
+
 }

@@ -7,31 +7,47 @@ import scalikejdbc.WrappedResultSet
 /**
   * Created by jason on 3/1/17.
   */
-case class Game(id: Long, gameTime: DateTime, awayScore: Option[Int], awayTeam: Team, homeScore: Option[Int],
-                homeTeam: Team, line: Float, offensiveYards: Option[Float], overUnder: Option[Float],
-                gameType: GameType, seasonId: Long)
+case class Game(
+                 id: Option[Long] = None,
+                 version: Long = 1,
+                 gameTime: DateTime,
+                 awayScore: Option[Int] = None,
+                 awayTeam: Team,
+                 homeScore: Option[Int] = None,
+                 homeTeam: Team,
+                 line: Float,
+                 offensiveYards: Option[Float] = None,
+                 overUnder: Option[Float] = None,
+                 weekNumber: Int,
+                 gameType: String,
+                 seasonId: Long
+               )
 
 object Game {
   def fromDb(rs:WrappedResultSet): Game = {
     val id: Long = rs.long("id")
+    val version: Long = rs.long("version")
     val gameTime: DateTime = rs.jodaDateTime("game_time")
     val awayScore: Option[Int] = rs.intOpt("away_score")
-    val awayTeam: Team = TeamService.getForAbbreviation(rs.string("away_team")).get
+    val awayTeam: Team = TeamService.getById(rs.int("away_team")).get
     val homeScore: Option[Int] = rs.intOpt("home_score")
-    val homeTeam: Team = TeamService.getForAbbreviation(rs.string("home_team")).get
+    val homeTeam: Team = TeamService.getById(rs.int("home_team")).get
     val line: Float = rs.float("line")
     val offensiveYards: Option[Float] = rs.floatOpt("offensive_yards")
     val overUnder: Option[Float] = rs.floatOpt("over_under")
-    val gameType: GameType = GameType(rs.string("game_type"))
+    val weekNumber: Int = rs.int("week_number")
+//    val gameType: GameType = GameType(rs.string("game_type"))
+    val gameType: String = rs.string("game_type")
     val seasonId: Long = rs.long("season_id")
 
-    Game(id, gameTime, awayScore, awayTeam, homeScore, homeTeam, line, offensiveYards, overUnder, gameType, seasonId)
+    Game(Some(id), version, gameTime, awayScore, awayTeam, homeScore, homeTeam, line, offensiveYards, overUnder,
+      weekNumber, gameType, seasonId)
   }
 }
 
 sealed abstract class GameType(val id: String, val display: String)
 
-object GameType {
+object GameType extends (String => GameType) {
   val allTypes: Set[GameType] = Set(RegularSeason(), AFCWildCard(), NFCWildCard(), AFCDivisional(), NFCDivisional(),
     ConferenceChampionship())
   val abbreviationMap: Map[String, GameType] = allTypes.map(g => (g.id, g)).toMap

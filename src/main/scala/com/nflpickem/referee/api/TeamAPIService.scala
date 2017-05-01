@@ -8,7 +8,7 @@ import spray.routing.{HttpService, Route}
   */
 trait TeamAPIService extends HttpService {
 
-  import com.nflpickem.referee.model.TeamJsonProtocol._
+  import com.nflpickem.referee.model.ApiFormats._
   import spray.httpx.SprayJsonSupport._
 
   def teamsRoute: Route =
