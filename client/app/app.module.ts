@@ -6,6 +6,7 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { routing }        from './app.routing';
 
 import { AppComponent }  from './app.component';
+import { BaseComponent } from './base.component';
 import { LoginModalComponent } from "./login-modal/login-modal.component";
 import { HomeComponent } from "./home/home.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
@@ -38,6 +39,7 @@ import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
   ],
   declarations: [
     AppComponent,
+    BaseComponent,
     LoginModalComponent,
     HomeComponent,
     MainNavComponent,
