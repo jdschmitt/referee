@@ -12,7 +12,8 @@ object ApiFormats extends DefaultJsonProtocol {
   implicit object JodaDateTimeFormat extends RootJsonFormat[DateTime] {
 
 //    val formatter = ISODateTimeFormat.basicDateTimeNoMillis
-    val formatter = DateTimeFormat.forPattern("MM-DD-YYYY hh:mm")
+    val pattern = "MM-dd-YYYY HH:mm"
+    val formatter = DateTimeFormat.forPattern(pattern)
 
     def write(obj: DateTime): JsValue = {
       JsString(formatter.print(obj))
@@ -31,7 +32,7 @@ object ApiFormats extends DefaultJsonProtocol {
 
     def error(v: Any): DateTime = {
       val example = formatter.print(0)
-      deserializationError(f"'$v' is not a valid date value. Dates must be in compact ISO-8601 format, e.g. '$example'")
+      deserializationError(f"'$v' is not a valid date value. Dates must be '$pattern'")
     }
   }
 

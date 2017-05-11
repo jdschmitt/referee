@@ -1,5 +1,4 @@
-<modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
-       (onOpen)="opened()" [cssClass]="cssClass" #addGameModal>
+<modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" [cssClass]="cssClass">
   <form #modalForm="ngForm" class="form-horizontal">
     <modal-header [show-close]="true">
       <h4 class="modal-tile">Add Game</h4>
@@ -9,7 +8,7 @@
         <label for="awayTeam" class="control-label col-sm-3">Away team:</label>
         <div class="col-sm-9">
           <select class="form-control" id="awayTeam" name="awayTeam" [(ngModel)]="details.awayTeam" (change)="onTeamChange('away')">
-            <option *ngFor="let team of awayTeams" value="{{ team.abbreviation }}">{{ team.market + ' ' + team.mascot }}</option>
+            <option *ngFor="let team of awayTeams" value="{{ team.id }}">{{ team.market + ' ' + team.mascot }}</option>
           </select>
         </div>
       </div>
@@ -17,7 +16,7 @@
         <label for="homeTeam" class="control-label col-sm-3">Home team:</label>
         <div class="col-sm-9">
           <select class="form-control" id="homeTeam" name="homeTeam" [(ngModel)]="details.homeTeam" (change)="onTeamChange('home')">
-            <option *ngFor="let team of homeTeams" value="{{ team.abbreviation }}">{{ team.market + ' ' + team.mascot }}</option>
+            <option *ngFor="let team of homeTeams" value="{{ team.id }}">{{ team.market + ' ' + team.mascot }}</option>
           </select>
         </div>
       </div>
@@ -36,7 +35,7 @@
                    id="gametime"
                    [(ngModel)]="details.gameTime"
                     ng2-datetime-picker
-                    date-format="MM-DD-YYYY hh:mm"
+                    date-format="MM-DD-YYYY HH:mm"
                     minute-step="5"
                     hour="12"
                     minute='0'
@@ -57,8 +56,8 @@
       </div>
     </modal-body>
     <modal-footer>
-      <button type="button" class="btn btn-default" data-dismiss="modal" (click)="dismissed()">Cancel</button>
-      <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="onSubmit()">Save</button>
+      <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+      <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="modal.close()">Save</button>
     </modal-footer>
   </form>
 </modal>

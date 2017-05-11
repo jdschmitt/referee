@@ -11,15 +11,19 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        games listed here
+      <tr *ngFor="let game of games">
+        <td><input type="checkbox"></td>
+        <td>{{game.awayTeam.abbreviation}}</td>
+        <td>{{game.line}}</td>
+        <td>{{game.homeTeam.abbreviation}}</td>
+        <td>{{game.gameTime}}</td>
       </tr>
       </tbody>
     </table>
     <div id="action-buttons">
-      <button id="btn-add-game" class="btn-primary" (click)="openModal()">Add Game</button>
+      <button id="btn-add-game" class="btn-primary" (click)="openAddGameModal()">Add Game</button>
     </div>
   </div>
 </div>
 
-<add-game-modal></add-game-modal>
+<add-game-modal #addGameModal></add-game-modal>

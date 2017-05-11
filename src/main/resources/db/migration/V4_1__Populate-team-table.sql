@@ -17,7 +17,7 @@ VALUES
   ('IND', 'Indianapolis', 'Colts'),
   ('JAX', 'Jacksonville', 'Jaguars'),
   ('KC', 'Kansas City', 'Chiefs'),
-  ('OAK', 'OAKLAND', 'Raiders'),
+  ('OAK', 'Oakland', 'Raiders'),
   ('LAM', 'Los Angeles', 'Rams'),
   ('MIA', 'Miami', 'Dolphins'),
   ('MIN', 'Minnesota', 'Vikings'),

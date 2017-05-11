@@ -5,8 +5,10 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent extends OnInit {
+export class AppComponent implements OnInit {
   title = 'app works!';
+
+  constructor() { }
 
   ngOnInit() {
     // TODO Check for auth creds (cookie?)

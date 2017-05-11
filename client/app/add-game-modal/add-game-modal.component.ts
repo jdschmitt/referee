@@ -1,14 +1,17 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation, Input, EventEmitter} from '@angular/core';
+import { BaseComponent } from '../base.component';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { GAME_TYPES_COLLECTION } from '../constants';
+import { SettingsService } from '../services/settings.service';
 import { TeamsService } from '../services/teams.service';
+import * as _ from 'underscore';
 
 export class AddGameDetails {
   constructor(
       public awayTeam: string,      // abbreviation
       public homeTeam: string,      // abbreviation
       public line: number,          // signed float
-      public gameTime: string,      // MM-DD-YYYY hh:mm (see html template)
+      public gameTime: any,      // MM-DD-YYYY hh:mm (see html template)
       public gameType: string       // abbreviation
   ) { }
 }
@@ -20,7 +23,7 @@ export class AddGameDetails {
 
   encapsulation: ViewEncapsulation.None
 })
-export class AddGameModalComponent implements OnInit {
+export class AddGameModalComponent extends BaseComponent implements OnInit {
 
   @ViewChild(ModalComponent) modal: ModalComponent;
   gameTypes = GAME_TYPES_COLLECTION;
@@ -29,12 +32,17 @@ export class AddGameModalComponent implements OnInit {
   awayTeams: any[];
   homeTeams: any[];
 
+  onClose: EventEmitter<any>;
+
   constructor(
+      protected settingsService: SettingsService,
       private teamsService: TeamsService
   ) {
+    super(settingsService);
   }
 
   ngOnInit() {
+    this.onClose = this.modal.onClose;
     this.teamsService.getTeams().subscribe(
         data => {
           this.allTeams = data;
@@ -46,35 +54,31 @@ export class AddGameModalComponent implements OnInit {
   }
 
   onTeamChange(which) {
-    console.log(which + " team changed");
-    // Remove other selection from possible values
-    if (which === 'away') {
-      // TODO Remove selected away team from home teams list
-    } else if (which === 'home') {
-      // TODO Remove selected home team from away teams list
-    }
-  }
-
-  ngAfterViewInit() {
-
-  }
-
-  closed() {
-  }
-
-  dismissed() {
-  }
-
-  opened() {
+    // TODO do some validation to prevent the same team to be chosen for away and home.
   }
 
   open() {
     return this.modal.open();
   }
 
-  onSubmit() {
-    console.log('Game time: ' + this.details.gameTime);
-    return this.modal.close();
+  closed() {
+    // return this.modal.close();
+  }
+
+  getGame() {
+    let awayTeam = _.find(this.allTeams, obj => obj.id === parseInt(this.details.awayTeam));
+    let homeTeam = _.find(this.allTeams, obj => obj.id === parseInt(this.details.homeTeam));
+    return {
+      "awayTeam": awayTeam,
+      "homeTeam": homeTeam,
+      "line": this.details.line,
+      "gameTime": this.details.gameTime.toString(),
+      "gameType": this.details.gameType,
+      "weekNumber": this.currentWeek,
+      "version": 1,
+      "seasonId": 1
+    }
+
   }
 
 }

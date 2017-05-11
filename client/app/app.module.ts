@@ -10,7 +10,10 @@ import { LoginModalComponent } from "./login-modal/login-modal.component";
 import { HomeComponent } from "./home/home.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
 import { SecondPotComponent } from "./second-pot/second-pot.component";
+
 import { AuthService } from "./services/auth.service";
+import { GamesService } from "./services/games.service";
+import { Logger } from "./services/logger.service";
 import { SettingsService } from "./services/settings.service";
 import { PlayersService } from "./services/players.service";
 import { TeamsService } from "./services/teams.service";
@@ -20,7 +23,6 @@ import { CommonModule } from "@angular/common";
 import { FooterComponent } from './footer/footer.component';
 import { GameAdminComponent } from './game-admin/game-admin.component';
 import { AddGameModalComponent } from './add-game-modal/add-game-modal.component';
-import { DatetimePickerDirective } from './datetime-picker.directive';
 import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
 
 @NgModule({
@@ -42,11 +44,12 @@ import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
     SecondPotComponent,
     FooterComponent,
     GameAdminComponent,
-    AddGameModalComponent,
-    DatetimePickerDirective
+    AddGameModalComponent
   ],
   providers: [
     AuthService,
+    GamesService,
+    Logger,
     SettingsService,
     PlayersService,
     TeamsService
