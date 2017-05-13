@@ -45,12 +45,9 @@ object GameService extends Whistle {
   }
 
   def getGamesForWeek(week: Int): Seq[Game] = DB.readOnly { implicit session =>
-    val selectStmt =
-      sql"""
-            SELECT g.* FROM GAME g
-            JOIN settings s ON s.id = g.season_id
-            WHERE week_number = $week
-         """.stripMargin
+    // TODO Probably should figure out how to avoid this extra DB query
+    val seasonId: Long = SeasonService.currentSeason.get.id.get
+    val selectStmt = sql"SELECT * FROM game WHERE season_id = $seasonId AND week_number = $week"
     selectStmt.map(Game.fromDb).list().apply()
   }
 
