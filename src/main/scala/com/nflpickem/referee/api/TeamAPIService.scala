@@ -12,10 +12,12 @@ trait TeamAPIService extends HttpService {
   import spray.httpx.SprayJsonSupport._
 
   def teamsRoute: Route =
-    path( "teams" ) {
-      get {
-        complete {
-          TeamService.allTeams
+    pathPrefix("api") {
+      path("teams") {
+        get {
+          complete {
+            TeamService.allTeams
+          }
         }
       }
     }

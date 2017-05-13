@@ -13,19 +13,21 @@ trait GameAPIService extends HttpService {
   import spray.httpx.SprayJsonSupport._
 
   def gamesRoute: Route =
-    path( "games" ) {
-      pathEndOrSingleSlash {
-        get {
-          parameters('week) { week =>
-            complete {
-              GameService.getGamesForWeek(week.toInt)
+    pathPrefix("api") {
+      path("games") {
+        pathEndOrSingleSlash {
+          get {
+            parameters('week) { week =>
+              complete {
+                GameService.getGamesForWeek(week.toInt)
+              }
             }
-          }
-        } ~
-        post {
-          entity(as[Game]) { game =>
-            complete {
-              GameService.insertGame(game)
+          } ~
+          post {
+            entity(as[Game]) { game =>
+              complete {
+                GameService.insertGame(game)
+              }
             }
           }
         }

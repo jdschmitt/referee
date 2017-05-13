@@ -15,19 +15,20 @@ trait SeasonAPIService extends HttpService with Whistle {
   import spray.httpx.SprayJsonSupport._
 
   def seasonsRoute: Route =
-    pathPrefix("seasons") {
-      pathEnd {
-        post {
-          entity(as[Season]) { season =>
-            complete {
-              SeasonService.insertSeason(season)
+    pathPrefix("api") {
+      pathPrefix("seasons") {
+        pathEnd {
+          post {
+            entity(as[Season]) { season =>
+              complete {
+                SeasonService.insertSeason(season)
+              }
             }
+          } ~
+          get {
+            complete(SeasonService.getSeasons)
           }
         } ~
-        get {
-          complete(SeasonService.getSeasons)
-        }
-      } ~
         path(LongNumber) { id =>
           delete {
             complete {
@@ -43,6 +44,6 @@ trait SeasonAPIService extends HttpService with Whistle {
             complete(SeasonService.getSeason(id))
           }
         }
+      }
     }
-
 }

@@ -12,17 +12,19 @@ trait SettingsAPIService extends HttpService {
   import spray.httpx.SprayJsonSupport._
 
   def settingsRoute: Route =
-    path( "settings" ) {
-      get {
-        complete {
-          SettingsService.getSettings
+    pathPrefix("api") {
+      path("settings") {
+        get {
+          complete {
+            SettingsService.getSettings
+          }
         }
-      }
-    } ~
-    path( "currentWeek" ) {
-      get {
-        complete {
-          SeasonService.currentWeek
+      } ~
+      path("currentWeek") {
+        get {
+          complete {
+            SeasonService.currentWeek
+          }
         }
       }
     }

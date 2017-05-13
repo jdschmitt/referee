@@ -12,22 +12,22 @@ trait PlayerAPIService extends HttpService {
   import spray.httpx.SprayJsonSupport._
 
   def playersRoute: Route =
-    path( "players" ) {
-      get {
-        complete {
-          PlayerService.allPlayers
+    pathPrefix("api") {
+      path("players") {
+        get {
+          complete {
+            PlayerService.allPlayers
+          }
         }
-      }
-    } ~ path("mainPotRanking") {
-      get {
-        complete {
-          PlayerService.mainPotRanking()
+      } ~
+      path("mainPotRanking") {
+        get {
+          complete(PlayerService.mainPotRanking())
         }
-      }
-    } ~ path("secondPotRanking") {
-      get {
-        complete {
-          PlayerService.secondPotRanking()
+      } ~
+      path("secondPotRanking") {
+        get {
+          complete(PlayerService.secondPotRanking())
         }
       }
     }
