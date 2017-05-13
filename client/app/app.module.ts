@@ -15,8 +15,9 @@ import { SecondPotComponent } from "./second-pot/second-pot.component";
 import { AuthService } from "./services/auth.service";
 import { GamesService } from "./services/games.service";
 import { Logger } from "./services/logger.service";
-import { SettingsService } from "./services/settings.service";
 import { PlayersService } from "./services/players.service";
+import { SeasonsService } from "./services/seasons.service";
+import { SettingsService } from "./services/settings.service";
 import { TeamsService } from "./services/teams.service";
 
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -54,8 +55,9 @@ import { SettingsComponent } from './settings/settings.component';
     AuthService,
     GamesService,
     Logger,
-    SettingsService,
     PlayersService,
+    SeasonsService,
+    SettingsService,
     TeamsService
   ],
   bootstrap:    [ AppComponent ]

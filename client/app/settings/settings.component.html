@@ -7,6 +7,7 @@
       <thead>
       <tr>
         <th><input type="checkbox" title="Toggle select all"></th>
+        <th>Season</th>
         <th>1st Reg Game Date</th>
         <th>1st Playoff Game Date</th>
         <th>Super Bowl Date</th>
@@ -15,9 +16,10 @@
       <tbody>
       <tr *ngFor="let season of seasons">
         <td><input type="checkbox"></td>
-        <td>{{season.firstGameDate}}</td>
-        <td>{{season.firstPlayoffDate}}</td>
-        <td>{{season.superBowlDate}}</td>
+        <td>{{seasonDescription(season)}}</td>
+        <td>{{displayDate(season.firstRegularGameDate)}}</td>
+        <td>{{displayDate(season.firstPlayoffGameDate)}}</td>
+        <td>{{displayDate(season.superBowlDate)}}</td>
       </tr>
       </tbody>
     </table>
