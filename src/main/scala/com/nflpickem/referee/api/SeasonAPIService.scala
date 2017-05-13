@@ -1,5 +1,7 @@
 package com.nflpickem.referee.api
 
+import com.nflpickem.referee.model.Season
+import com.nflpickem.referee.service.SeasonService
 import spray.routing.{HttpService, Route}
 
 /**
@@ -15,6 +17,13 @@ trait SeasonAPIService extends HttpService {
       get {
         complete {
           SeasonService.getSeasons
+        }
+      } ~
+      post {
+        entity(as[Season]) { season =>
+          complete {
+            SeasonService.insertSeason(season)
+          }
         }
       }
     }

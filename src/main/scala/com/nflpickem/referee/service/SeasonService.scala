@@ -1,9 +1,9 @@
-package com.nflpickem.referee.api
+package com.nflpickem.referee.service
 
 import com.nflpickem.referee.Whistle
 import com.nflpickem.referee.model.Season
-import org.joda.time.base.AbstractPartial
 import org.joda.time._
+import org.joda.time.base.AbstractPartial
 import scalikejdbc._
 
 /**
@@ -15,6 +15,31 @@ object SeasonService extends Whistle {
     sql"""
        SELECT * FROM season;
     """.map(Season.fromDb).list().apply()
+  }
+
+  def insertSeason(season: Season): Season = DB.autoCommit { implicit session =>
+    val insertStmt =
+      sql"""
+          INSERT INTO season(
+            first_reg_game_date,
+            first_playoff_game_date,
+            super_bowl_date
+          ) VALUES (
+            ${season.firstRegularGameDate},
+            ${season.firstPlayoffGameDate},
+            ${season.superBowlDate}
+          )
+         """.stripMargin
+    try {
+      val id: Long = insertStmt.updateAndReturnGeneratedKey.apply()
+
+      season.copy(id = Some(id))
+
+    } catch {
+      case t: Throwable => log.error("Error while inserting new season", t)
+        println(s"error while inserting new season: ${t.getMessage}")
+        season
+    }
   }
 
   def currentSeason: Option[Season] = DB.readOnly { implicit session =>
@@ -31,7 +56,7 @@ object SeasonService extends Whistle {
       if (curSeason.isEmpty) {
         log.error("Could not read current season from DB!!")
         -1
-      } else curSeason.get.id
+      } else curSeason.get.id.get
     }
 
   def currentWeek: CurrentWeek = DB.readOnly { implicit session =>
