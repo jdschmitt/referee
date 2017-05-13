@@ -28,7 +28,7 @@ object SeasonService extends Whistle {
             ${season.firstRegularGameDate},
             ${season.firstPlayoffGameDate},
             ${season.superBowlDate}
-          )
+          );
          """.stripMargin
     try {
       val id: Long = insertStmt.updateAndReturnGeneratedKey.apply()
@@ -42,8 +42,20 @@ object SeasonService extends Whistle {
     }
   }
 
+  def getSeason(id: Long): Option[Season] = DB.readOnly { implicit session =>
+    sql"SELECT * FROM season WHERE id = $id"
+      .map(Season.fromDb).single().apply()
+  }
+
+  def deleteSeason(id: Long): Boolean = DB.autoCommit { implicit session =>
+    val deleteStmt =
+      sql"""
+           DELETE FROM season WHERE id = $id;
+         """
+    deleteStmt.update().apply() == 1
+  }
+
   def currentSeason: Option[Season] = DB.readOnly { implicit session =>
-    // TODO Cache this query
     sql"""
       SELECT * FROM season ORDER BY first_reg_game_date DESC LIMIT 1;
     """.map(Season.fromDb).single().apply()
@@ -60,7 +72,7 @@ object SeasonService extends Whistle {
     }
 
   def currentWeek: CurrentWeek = DB.readOnly { implicit session =>
-    val seasonOpt = SeasonService.currentSeason
+    val seasonOpt = currentSeason
     if (seasonOpt.isEmpty) {
       log.error("Could not read current season from DB!!")
       return CurrentWeek(-1)
