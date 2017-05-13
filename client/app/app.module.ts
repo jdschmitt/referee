@@ -25,6 +25,7 @@ import { FooterComponent } from './footer/footer.component';
 import { GameAdminComponent } from './game-admin/game-admin.component';
 import { AddGameModalComponent } from './add-game-modal/add-game-modal.component';
 import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   imports:      [
@@ -46,7 +47,8 @@ import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
     SecondPotComponent,
     FooterComponent,
     GameAdminComponent,
-    AddGameModalComponent
+    AddGameModalComponent,
+    SettingsComponent
   ],
   providers: [
     AuthService,

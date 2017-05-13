@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SecondPotComponent } from "./second-pot/second-pot.component";
 import { HomeComponent } from "./home/home.component";
 import { GameAdminComponent } from "./game-admin/game-admin.component";
+import { SettingsComponent } from "./settings/settings.component";
 
 const appRoutes: Routes = [
   {
@@ -15,6 +16,10 @@ const appRoutes: Routes = [
   {
     path: 'gameAdmin',
     component: GameAdminComponent
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent
   }
 ];
 

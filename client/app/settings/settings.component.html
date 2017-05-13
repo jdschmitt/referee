@@ -1,0 +1,28 @@
+<div>
+  <div id="season-settings-container">
+    Season-specific settings
+  </div>
+  <div id="seasons-container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th><input type="checkbox" title="Toggle select all"></th>
+        <th>1st Reg Game Date</th>
+        <th>1st Playoff Game Date</th>
+        <th>Super Bowl Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let season of seasons">
+        <td><input type="checkbox"></td>
+        <td>{{season.firstGameDate}}</td>
+        <td>{{season.firstPlayoffDate}}</td>
+        <td>{{season.superBowlDate}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div id="action-buttons">
+      <button id="btn-add-season" class="btn-primary" (click)="openAddSeasonModal()">Add Season</button>
+    </div>
+  </div>
+</div>
