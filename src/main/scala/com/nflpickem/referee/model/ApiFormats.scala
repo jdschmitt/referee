@@ -1,7 +1,7 @@
 package com.nflpickem.referee.model
 
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
 import spray.json.{DefaultJsonProtocol, RootJsonFormat, _}
 
 /**
@@ -11,9 +11,8 @@ object ApiFormats extends DefaultJsonProtocol {
 
   implicit object JodaDateTimeFormat extends RootJsonFormat[DateTime] {
 
-//    val formatter = ISODateTimeFormat.basicDateTimeNoMillis
     val pattern = "MM-dd-YYYY HH:mm"
-    val formatter = DateTimeFormat.forPattern(pattern)
+    val formatter: DateTimeFormatter = DateTimeFormat.forPattern(pattern)
 
     def write(obj: DateTime): JsValue = {
       JsString(formatter.print(obj))
@@ -24,14 +23,13 @@ object ApiFormats extends DefaultJsonProtocol {
         formatter.parseDateTime(s)
       }
       catch {
-        case t: Throwable => error(s)
+        case _: Throwable => error(s)
       }
       case _ =>
         error(json.toString())
     }
 
     def error(v: Any): DateTime = {
-      val example = formatter.print(0)
       deserializationError(f"'$v' is not a valid date value. Dates must be '$pattern'")
     }
   }
@@ -39,4 +37,5 @@ object ApiFormats extends DefaultJsonProtocol {
   implicit val teamFormat: RootJsonFormat[Team] = jsonFormat4(Team.apply)
 //  implicit val gameTypeFormat: RootJsonFormat[GameType] = jsonFormat1(GameType.apply)
   implicit val gameFormat: RootJsonFormat[Game] = jsonFormat13(Game.apply)
+  implicit val seasonFormat: RootJsonFormat[Season] = jsonFormat4(Season.apply)
 }

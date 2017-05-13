@@ -11,6 +11,12 @@ import scalikejdbc._
   */
 object SeasonService extends Whistle {
 
+  def getSeasons: Seq[Season] = DB.readOnly { implicit session =>
+    sql"""
+       SELECT * FROM season;
+    """.map(Season.fromDb).list().apply()
+  }
+
   def currentSeason: Option[Season] = DB.readOnly { implicit session =>
     // TODO Cache this query
     sql"""
