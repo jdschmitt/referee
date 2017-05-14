@@ -27,6 +27,7 @@ import { GameAdminComponent } from './game-admin/game-admin.component';
 import { AddGameModalComponent } from './add-game-modal/add-game-modal.component';
 import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
 import { SettingsComponent } from './settings/settings.component';
+import { SignupModalComponent } from './signup-modal/signup-modal.component';
 
 @NgModule({
   imports:      [
@@ -49,7 +50,8 @@ import { SettingsComponent } from './settings/settings.component';
     FooterComponent,
     GameAdminComponent,
     AddGameModalComponent,
-    SettingsComponent
+    SettingsComponent,
+    SignupModalComponent
   ],
   providers: [
     AuthService,

@@ -1,0 +1,54 @@
+<modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" [cssClass]="cssClass">
+  <form #modalForm="ngForm" class="form-horizontal">
+    <modal-header [show-close]="true">
+      <h4 class="modal-tile">Sign Up</h4>
+    </modal-header>
+    <modal-body>
+      <div class="form-group">
+        <label for="firstName" class="control-label col-sm-3">First Name:</label>
+        <div class="col-sm-9">
+          <input type="number" id="firstName" name="firstName" min="0" step="0.5" [(ngModel)]="player.firstName">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lastName" class="control-label col-sm-3">Last Name:</label>
+        <div class="col-sm-9">
+          <input type="number" id="lastName" name="lastName" min="0" step="0.5" [(ngModel)]="player.lastName">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email" class="control-label col-sm-3">Email:</label>
+        <div class="col-sm-9">
+          <input type="number" id="email" name="email" min="0" step="0.5" [(ngModel)]="player.email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password1" class="control-label col-sm-3">Password:</label>
+        <div class="col-sm-9">
+          <input type="number" id="password1" name="password1" min="0" step="0.5" [(ngModel)]="player.password1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password2" class="control-label col-sm-3">Last Name:</label>
+        <div class="col-sm-9">
+          <input type="number" id="password2" name="password2" min="0" step="0.5" [(ngModel)]="player.password2">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="defaultPick" class="control-label col-sm-3">Default Pick:</label>
+        <div class="col-sm-9">
+          <select class="form-control" id="defaultPick" name="defaultPick" [(ngModel)]="player.defaultPick">
+            <option value="HOME_TEAM">Home Team</option>
+            <option value="AWAY_TEAM">Away Team</option>
+            <option value="FAVORITE_TEAM">Favorites</option>
+            <option value="UNDERDOG_TEAM">Underdogs</option>
+          </select>
+        </div>
+      </div>
+    </modal-body>
+    <modal-footer>
+      <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+      <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="modal.close()">Signup</button>
+    </modal-footer>
+  </form>
+</modal>

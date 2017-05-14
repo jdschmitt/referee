@@ -1,7 +1,6 @@
 import {Component, ViewChild, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {AuthService} from "../services/auth.service";
 import { LoginModalComponent } from '../login-modal/login-modal.component';
+import { SignupModalComponent } from '../signup-modal/signup-modal.component';
 
 @Component({
   selector: 'main-nav',
@@ -12,25 +11,18 @@ import { LoginModalComponent } from '../login-modal/login-modal.component';
 export class MainNavComponent implements OnInit {
 
   @ViewChild(LoginModalComponent) loginModal: LoginModalComponent;
+  @ViewChild(SignupModalComponent) signupMOdal: SignupModalComponent;
 
-  constructor(
-    private router: Router,
-    private authService: AuthService
-  ) { }
+  constructor() { }
 
-  openModal() {
+  openLoginModal() {
     this.loginModal.open();
   }
 
-  ngOnInit() {
-    console.log("Init main-nav");
+  openSignupModal() {
+    this.signupMOdal.open();
+  }
 
-    // TODO If not authenticated, redirect to /login
-    // TODO Uncomment when it's time to implement auth
-    /*
-     if (!this.authService.isLoggedIn()) {
-     this.router.navigate(['/login']);
-     }
-     */
+  ngOnInit() {
   }
 }
