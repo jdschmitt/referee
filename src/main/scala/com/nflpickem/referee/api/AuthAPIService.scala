@@ -4,15 +4,30 @@ import com.nflpickem.referee.Whistle
 import com.nflpickem.referee.model.Role
 import com.nflpickem.referee.service.AuthService
 import spray.routing.authentication.BasicAuth
-import spray.routing.{HttpService, Route}
+import spray.routing.{Directive1, HttpService, Route}
 
-import scala.concurrent.ExecutionContextExecutor
+import scala.concurrent.{ExecutionContextExecutor, Future}
 
 /**
   * Created by jason on 2/1/17.
   */
 trait AuthAPIService extends HttpService with Whistle {
   implicit def executionContext: ExecutionContextExecutor = actorRefFactory.dispatcher
+
+  import com.nflpickem.referee._
+
+  private val authenticator = RefereeTokenAuthenticator[String](
+    headerName = "admin-token"
+  ) { token: String =>
+    Future {
+      if (token == RefereeEnvConfig.getString("admin-token"))
+        Some(token)
+      else
+        None
+    }
+  }
+
+  val adminTokenAuth: Directive1[String] = authenticate(authenticator)
 
   import com.nflpickem.referee.model.ApiFormats._
   import spray.httpx.SprayJsonSupport._
@@ -22,9 +37,11 @@ trait AuthAPIService extends HttpService with Whistle {
       pathPrefix("roles") {
         pathEnd {
           post {
-            entity(as[Role]) { role =>
-              complete {
-                AuthService.addRole(role)
+            adminTokenAuth { token =>
+              entity(as[Role]) { role =>
+                complete {
+                  AuthService.addRole(role)
+                }
               }
             }
           } ~

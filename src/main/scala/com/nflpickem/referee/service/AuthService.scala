@@ -25,6 +25,11 @@ object AuthService extends Whistle {
     }
   }
 
+  def addPlayerRole(playerId: Long, roleId: Long): Boolean = DB.autoCommit { implicit session =>
+    sql"INSERT INTO player_role (role_id, player_id) VALUES ($playerId, $roleId);"
+        .update().apply() == 1
+  }
+
   def getRoles: Seq[Role] = DB.readOnly { implicit session =>
     sql"SELECT * FROM role;".map(Role.fromDb).list().apply()
   }
