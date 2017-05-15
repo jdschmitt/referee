@@ -1,8 +1,9 @@
 package com.nflpickem.referee.api
 
 import com.nflpickem.referee.Whistle
-import com.nflpickem.referee.model.Role
+import com.nflpickem.referee.model.{PlayerRole, Role}
 import com.nflpickem.referee.service.AuthService
+import spray.http.StatusCodes
 import spray.routing.authentication.BasicAuth
 import spray.routing.{Directive1, HttpService, Route}
 
@@ -34,20 +35,30 @@ trait AuthAPIService extends HttpService with Whistle {
 
   def authRoute: Route =
     pathPrefix("api") {
-      pathPrefix("roles") {
-        pathEnd {
-          post {
-            adminTokenAuth { token =>
-              entity(as[Role]) { role =>
-                complete {
-                  AuthService.addRole(role)
-                }
+      path("playerRole") {
+        post {
+          adminTokenAuth { token =>
+            entity(as[PlayerRole]) { playerRole: PlayerRole =>
+              complete {
+                AuthService.addPlayerRole(playerRole)
+                StatusCodes.NoContent
               }
             }
-          } ~
-          get {
-            complete(AuthService.getRoles)
           }
+        }
+      } ~
+      path("roles") {
+        post {
+          adminTokenAuth { token =>
+            entity(as[Role]) { role =>
+              complete {
+                AuthService.addRole(role)
+              }
+            }
+          }
+        } ~
+        get {
+          complete(AuthService.getRoles)
         }
       } ~
       path("auth") {

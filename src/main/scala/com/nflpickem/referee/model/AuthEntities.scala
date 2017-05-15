@@ -28,3 +28,5 @@ object AuthToken {
     AuthToken(Some(id), playerId, token, expiration)
   }
 }
+
+case class PlayerRole(playerId: Long, roleId: Long)

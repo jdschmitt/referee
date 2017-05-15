@@ -1,7 +1,7 @@
 package com.nflpickem.referee.service
 
 import com.nflpickem.referee.Whistle
-import com.nflpickem.referee.model.{AuthToken, Role}
+import com.nflpickem.referee.model.{AuthToken, PlayerRole, Role}
 import io.github.nremond.SecureHash
 import scalikejdbc._
 
@@ -25,8 +25,8 @@ object AuthService extends Whistle {
     }
   }
 
-  def addPlayerRole(playerId: Long, roleId: Long): Boolean = DB.autoCommit { implicit session =>
-    sql"INSERT INTO player_role (role_id, player_id) VALUES ($playerId, $roleId);"
+  def addPlayerRole(pr: PlayerRole): Boolean = DB.autoCommit { implicit session =>
+    sql"INSERT INTO player_role (role_id, player_id) VALUES (${pr.playerId}, ${pr.roleId});"
         .update().apply() == 1
   }
 

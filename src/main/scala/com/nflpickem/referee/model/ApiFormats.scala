@@ -44,4 +44,5 @@ object ApiFormats extends DefaultJsonProtocol {
   implicit val roleFormat: RootJsonFormat[Role] = jsonFormat3(Role.apply)
   implicit val seasonFormat: RootJsonFormat[Season] = jsonFormat4(Season.apply)
   implicit val authTokenFormat: RootJsonFormat[AuthTokenResponse] = jsonFormat1(AuthTokenResponse.apply)
+  implicit val playerRoleFormat: RootJsonFormat[PlayerRole] = jsonFormat2(PlayerRole.apply)
 }
