@@ -10,6 +10,7 @@ package object referee {
 
   lazy val RefereeConfig: Config = ConfigFactory.load().getConfig("nflpickem-referee")
   lazy val RefereeEnv: String = sys.env("REFEREE_ENV")
-  lazy val MySqlConfig = RefereeMySqlConfig(RefereeConfig.getConfig(s"$RefereeEnv.mysql"))
+  lazy val RefereeEnvConfig: Config = RefereeConfig.getConfig(s"$RefereeEnv")
+  lazy val MySqlConfig = RefereeMySqlConfig(RefereeEnvConfig.getConfig("mysql"))
 
 }

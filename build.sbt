@@ -44,7 +44,8 @@ libraryDependencies ++= {
     "com.typesafe.akka"   %% "akka-actor"           % AKKA_VERSION,
     "com.typesafe.akka"   %% "akka-testkit"         % AKKA_VERSION  % "test",
     "com.typesafe.akka"   %% "akka-slf4j"           % AKKA_VERSION,
-    "org.specs2"          %% "specs2-core"          % "2.3.11"      % "test"
+    "org.specs2"          %% "specs2-core"          % "2.3.11"      % "test",
+    "io.github.nremond"   %% "pbkdf2-scala"         % "0.5"
   )
 }
 

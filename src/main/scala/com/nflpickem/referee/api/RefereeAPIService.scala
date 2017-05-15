@@ -4,6 +4,8 @@ import akka.actor.{Actor, ActorContext}
 import spray.http.HttpHeaders.RawHeader
 import spray.routing._
 
+import scala.concurrent.ExecutionContextExecutor
+
 /**
   * Created by jason on 1/31/17.
   */
@@ -21,6 +23,8 @@ trait RefereeAPIService extends HttpService
   with SeasonAPIService
   with SettingsAPIService
   with TeamAPIService {
+
+  override implicit def executionContext: ExecutionContextExecutor = actorRefFactory.dispatcher
 
   val context:ActorContext
 

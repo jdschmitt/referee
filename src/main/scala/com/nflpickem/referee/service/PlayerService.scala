@@ -1,15 +1,45 @@
 package com.nflpickem.referee.service
 
-import com.nflpickem.referee.model.{Player, RankedPlayer}
+import com.nflpickem.referee.Whistle
+import com.nflpickem.referee.model.{Player, PlayerSignUp, RankedPlayer}
 import scalikejdbc._
 
 /**
   * Created by jason on 2/1/17.
   */
-object PlayerService {
+object PlayerService extends Whistle {
 
   def allPlayers: Seq[Player] = DB.readOnly { implicit session =>
     sql"SELECT * FROM player".map(Player.fromDb).list().apply()
+  }
+
+  def insertPlayer(player: PlayerSignUp): Player = DB.autoCommit { implicit session =>
+    val passDb = AuthService.hashedPassword(player.password)
+    val stmt = sql"""
+          INSERT INTO player
+            (version, default_pick, email, enabled, first_name, last_name, password, password_expired)
+          VALUES
+            (1, ${player.defaultPick}, ${player.email}, 1, ${player.firstName}, ${player.lastName}, $passDb, 0)
+      """.stripMargin
+
+    try {
+      val id: Long = stmt.updateAndReturnGeneratedKey.apply()
+
+      Player(Some(id), player)
+    } catch {
+      case t: Throwable => log.error("Error while inserting new player", t)
+        println(s"error while inserting new player: ${t.getMessage}")
+        Player(None, player)
+    }
+  }
+
+  def getPlayer(email: String): Option[Player] = DB.readOnly { implicit session =>
+    sql"SELECT * FROM player WHERE email = $email".map(Player.fromDb).single().apply()
+  }
+
+  def getHashedPassword(email: String): Option[String] = DB.readOnly { implicit session =>
+    sql"SELECT password FROM player WHERE email = $email;"
+      .map(_.string("password")).single().apply()
   }
 
   def mainPotRanking(seasonIdOpt: Option[Long] = None): Seq[RankedPlayer] = DB.readOnly { implicit session =>
