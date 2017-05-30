@@ -1,6 +1,6 @@
-import {Component, ViewChild, OnInit} from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
-import { SignupModalComponent } from '../signup-modal/signup-modal.component';
+import { SignUpModalComponent } from '../signup-modal/signup-modal.component';
 
 @Component({
   selector: 'main-nav',
@@ -11,7 +11,7 @@ import { SignupModalComponent } from '../signup-modal/signup-modal.component';
 export class MainNavComponent implements OnInit {
 
   @ViewChild(LoginModalComponent) loginModal: LoginModalComponent;
-  @ViewChild(SignupModalComponent) signupMOdal: SignupModalComponent;
+  @ViewChild(SignUpModalComponent) signupModal: SignUpModalComponent;
 
   constructor() { }
 
@@ -20,7 +20,7 @@ export class MainNavComponent implements OnInit {
   }
 
   openSignupModal() {
-    this.signupMOdal.open();
+    this.signupModal.open();
   }
 
   ngOnInit() {

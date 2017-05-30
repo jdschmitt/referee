@@ -16,28 +16,24 @@
           <input type="text" id="lastName" name="lastName" class="form-control" [(ngModel)]="player.lastName">
         </div>
       </div>
-      <div class="form-group">
-        <label for="email" class="control-label col-sm-3">Email:</label>
+      <div class="form-group has-feedback">
+        <label for="email" class="control-label col-sm-3">Username:</label>
         <div class="col-sm-9">
-          <input type="text" id="email" name="email" class="form-control" [(ngModel)]="player.email">
+          <input type="text" id="email" name="email" class="form-control" placeholder="email address" [(ngModel)]="player.email">
         </div>
       </div>
       <div class="form-group">
-        <label for="password1" class="control-label col-sm-3">Password:</label>
-        <div class="col-sm-9">
-          <input type="password" id="password1" name="password1" class="form-control" [(ngModel)]="player.password1">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="password2" class="control-label col-sm-3">Last Name:</label>
-        <div class="col-sm-9">
-          <input type="password" id="password2" name="password2" class="form-control" [(ngModel)]="player.password2">
+        <label for="password" class="control-label col-sm-3">Password:</label>
+        <div class="input-group col-sm-9">
+          <input type="password" id="password" name="password" show-hide-input class="form-control" [(ngModel)]="player.password">
+          <span class="show-hide-icon input-group-addon" (click)="toggleMask();"><i show-hide-icon class="glyphicon glyphicon-eye-open" id="password-icon"></i></span>
         </div>
       </div>
       <div class="form-group">
         <label for="defaultPick" class="control-label col-sm-3">Default Pick:</label>
         <div class="col-sm-9">
           <select class="form-control" id="defaultPick" name="defaultPick" [(ngModel)]="player.defaultPick">
+            <option value="">Select a default</option>
             <option value="HOME_TEAM">Home Team</option>
             <option value="AWAY_TEAM">Away Team</option>
             <option value="FAVORITE_TEAM">Favorites</option>
@@ -45,10 +41,16 @@
           </select>
         </div>
       </div>
+      <div class="form-group">
+        <label for="leaguePass" class="control-label col-sm-3">League Password:</label>
+        <div class="col-sm-9">
+          <input type="password" id="leaguePass" name="leaguePass" class="form-control" [(ngModel)]="player.leaguePass">
+        </div>
+      </div>
     </modal-body>
     <modal-footer>
       <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-      <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="modal.close()">Signup</button>
+      <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="signup()">Signup</button>
     </modal-footer>
   </form>
 </modal>
