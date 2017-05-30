@@ -74,4 +74,4 @@ buildFrontEnd := {
 // Executes when running within IDE
 //(run in Compile) <<= (run in Compile).dependsOn(buildFrontEnd)
 // Executes when running "sbt compile"
-//compile <<= (compile in Compile) dependsOn buildFrontEnd
+compile <<= (compile in Compile) dependsOn buildFrontEnd
