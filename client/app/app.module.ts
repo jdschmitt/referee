@@ -29,8 +29,7 @@ import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
 import { SettingsComponent } from './settings/settings.component';
 import { SignUpModalComponent } from './signup-modal/signup-modal.component';
 
-import { ShowHideInput } from './show-hide-input';
-import { ShowHideIcon } from './show-hide-icon';
+import { PasswordFieldComponent } from './password-field/password-field.component';
 
 @NgModule({
   imports:      [
@@ -54,9 +53,8 @@ import { ShowHideIcon } from './show-hide-icon';
     GameAdminComponent,
     AddGameModalComponent,
     SettingsComponent,
-    ShowHideIcon,
-    ShowHideInput,
-    SignUpModalComponent
+    SignUpModalComponent,
+    PasswordFieldComponent
   ],
   providers: [
     AuthService,

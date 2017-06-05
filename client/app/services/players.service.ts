@@ -8,7 +8,8 @@ export class PlayersService extends BaseService{
 
   URIs = {
     mainPotRanking: '/mainPotRanking',
-    secondPotRanking: "/secondPotRanking"
+    secondPotRanking: '/secondPotRanking',
+    players: '/players',
   };
 
   getMainPotRanking() {
@@ -17,6 +18,10 @@ export class PlayersService extends BaseService{
 
   getSecondPotRanking() {
     return this.get(this.URIs.secondPotRanking).map((res:Response) => res.json());
+  }
+
+  playerSignup(player) {
+    return this.post(this.URIs.players, player).map((res:Response) => res.json());
   }
 
 }

@@ -25,8 +25,7 @@
       <div class="form-group">
         <label for="password" class="control-label col-sm-3">Password:</label>
         <div class="input-group col-sm-9">
-          <input type="password" id="password" name="password" show-hide-input class="form-control" [(ngModel)]="player.password">
-          <span class="show-hide-icon input-group-addon" (click)="toggleMask();"><i show-hide-icon class="glyphicon glyphicon-eye-open" id="password-icon"></i></span>
+          <password-field id="password" [name]="password" [(value)]="player.password"></password-field>
         </div>
       </div>
       <div class="form-group">
@@ -43,8 +42,8 @@
       </div>
       <div class="form-group">
         <label for="leaguePass" class="control-label col-sm-3">League Password:</label>
-        <div class="col-sm-9">
-          <input type="password" id="leaguePass" name="leaguePass" class="form-control" [(ngModel)]="player.leaguePass">
+        <div class="input-group col-sm-9">
+          <password-field id="leaguePass" [name]="leaguePass" [(value)]="player.leaguePass"></password-field>
         </div>
       </div>
     </modal-body>

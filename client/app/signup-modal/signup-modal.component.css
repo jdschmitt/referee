@@ -1,12 +1,3 @@
-#unmask-icon {
-    position: absolute;
-    z-index: 1000;
-    top: 30%;
-    right: 5%;
-    color: #999999;
-    text-decoration: none;
-}
-
 .input-group[class*=col-] {
     float: none;
     padding-left: 15px;
@@ -15,4 +6,8 @@
 
 .show-hide-icon {
     cursor: pointer;
+}
+
+password-field {
+    display: table;
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation, Input, EventEmitter} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation, EventEmitter} from '@angular/core';
 import { BaseComponent } from '../base.component';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { GAME_TYPES_COLLECTION } from '../constants';
@@ -11,7 +11,7 @@ export class AddGameDetails {
       public awayTeam: string,      // abbreviation
       public homeTeam: string,      // abbreviation
       public line: number,          // signed float
-      public gameTime: any,      // MM-DD-YYYY hh:mm (see html template)
+      public gameTime: any,         // MM-DD-YYYY hh:mm (see html template)
       public gameType: string       // abbreviation
   ) { }
 }
