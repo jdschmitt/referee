@@ -4,6 +4,7 @@ import com.nflpickem.referee.Whistle
 import com.nflpickem.referee.api.LeaguePasswordAuthenticator.SignUpPasswordExtraction.SignUpPassword
 import com.nflpickem.referee.model.PlayerSignUp
 import com.nflpickem.referee.service.{PlayerService, SettingsService}
+import spray.http.StatusCodes
 import spray.routing._
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -31,18 +32,30 @@ trait PlayerAPIService extends HttpService with Whistle {
 
   def playersRoute: Route =
     pathPrefix("api") {
-      path("players") {
-        get {
-          complete {
-            PlayerService.allPlayers
+      pathPrefix("players") {
+        pathEndOrSingleSlash {
+          get {
+            complete {
+              PlayerService.allPlayers
+            }
+          } ~
+          post {
+            authenticate(authenticator) { signUpPassword: SignUpPassword =>
+              entity(as[PlayerSignUp]) { signUp: PlayerSignUp =>
+                complete {
+                  PlayerService.insertPlayer(signUp)
+                }
+              }
+            }
           }
         } ~
-        post {
-          authenticate(authenticator) { signUpPassword: SignUpPassword =>
-            entity(as[PlayerSignUp]) { signUp: PlayerSignUp =>
-              complete {
-                PlayerService.insertPlayer(signUp)
-              }
+        path(LongNumber) { id =>
+          delete {
+            complete {
+              if (PlayerService.deletePlayer(id))
+                StatusCodes.NoContent
+              else
+                StatusCodes.NotFound
             }
           }
         }

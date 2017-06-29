@@ -1,0 +1,26 @@
+<div id="player-admin">
+  <div id="players-table-container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Player</th>
+        <th>Email</th>
+        <th>Default Pick</th>
+        <th>Delete</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let player of players">
+        <td>{{player.firstName}} {{player.lastName}}</td>
+        <td><a href="mailto:{{player.email}}">{{player.email}}</a></td>
+        <td>{{pickDisplay(player.defaultPick)}}</td>
+        <td>
+          <button type="button" class="btn btn-danger">
+            <span class="glyphicon glyphicon-remove" (click)="deletePlayer(player.id)"></span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

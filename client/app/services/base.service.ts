@@ -34,4 +34,12 @@ export class BaseService {
     return this.http.post(this.getURL(uri), JSON.stringify(json), this.options);
   }
 
+  delete(uri: string, paramsMap = {}) {
+    let params: URLSearchParams = new URLSearchParams();
+    _.each(paramsMap, (v: string, k: string, m) => params.set(k, v));
+    return this.http.delete(this.getURL(uri), {
+      search: params
+    });
+  }
+
 }

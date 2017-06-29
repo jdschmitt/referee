@@ -4,6 +4,7 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { SettingsService } from '../services/settings.service';
 import { PlayersService } from '../services/players.service';
 import { NgForm } from "@angular/forms";
+import { DEFAULT_PICKS_COLLECTION } from '../constants';
 
 export class PlayerSignup {
   constructor(
@@ -28,6 +29,7 @@ export class SignUpModalComponent extends BaseComponent implements OnInit {
   @ViewChild(ModalComponent) modal: ModalComponent;
   @ViewChild('modalForm') public signUpForm: NgForm;
   player: PlayerSignup = new PlayerSignup();
+  picks = DEFAULT_PICKS_COLLECTION;
 
   constructor(
       protected settingsService: SettingsService,
@@ -49,12 +51,9 @@ export class SignUpModalComponent extends BaseComponent implements OnInit {
   }
 
   signup() {
-    let self = this;
     this.playersService.playerSignup(this.player).subscribe(
         complete => {
-          console.log("Signup successful");
-          // this.close();
-          // Auto sign in?
+          this.modal.dismiss();
         },
         error => console.log("Failed to sign up: " + error._body)
     );

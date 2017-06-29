@@ -33,10 +33,7 @@
         <div class="col-sm-9">
           <select class="form-control" id="defaultPick" name="defaultPick" [(ngModel)]="player.defaultPick">
             <option value="">Select a default</option>
-            <option value="HOME_TEAM">Home Team</option>
-            <option value="AWAY_TEAM">Away Team</option>
-            <option value="FAVORITE_TEAM">Favorites</option>
-            <option value="UNDERDOG_TEAM">Underdogs</option>
+            <option *ngFor="let pick of picks" value="{{pick.id}}">{{pick.display}}</option>
           </select>
         </div>
       </div>
@@ -49,7 +46,7 @@
     </modal-body>
     <modal-footer>
       <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-      <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="signup()">Signup</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="signup()">Signup</button>
     </modal-footer>
   </form>
 </modal>

@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation, EventEmitter} from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, EventEmitter } from '@angular/core';
 import { BaseComponent } from '../base.component';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { GAME_TYPES_COLLECTION } from '../constants';
 import { SettingsService } from '../services/settings.service';
 import { TeamsService } from '../services/teams.service';
+import { GAME_TYPES_COLLECTION } from '../constants';
 import * as _ from 'underscore';
 
 export class AddGameDetails {

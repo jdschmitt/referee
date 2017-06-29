@@ -27,3 +27,22 @@ export const GAME_TYPES_COLLECTION = [
         display: "Super Bowl"
     }
 ];
+
+export const DEFAULT_PICKS_COLLECTION = [
+    {
+        id: "HOME_TEAM",
+        display: "Home Teams"
+    },
+    {
+        id: "AWAY_TEAM",
+        display: "Away Teams"
+    },
+    {
+        id: "FAVORITE_TEAM",
+        display: "Favorites"
+    },
+    {
+        id: "UNDERDOG_TEAM",
+        display: "Underdogs"
+    }
+];

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {BaseService} from "./base.service";
+import {retry} from "rxjs/operator/retry";
 
 @Injectable()
 export class PlayersService extends BaseService{
@@ -22,6 +23,14 @@ export class PlayersService extends BaseService{
 
   playerSignup(player) {
     return this.post(this.URIs.players, player).map((res:Response) => res.json());
+  }
+
+  allPlayers() {
+    return this.get(this.URIs.players).map((res:Response) => res.json());
+  }
+
+  deletePlayer(id: number) {
+    return this.delete(`${this.URIs.players}/${id}`).map((res:Response) => res.json());
   }
 
 }

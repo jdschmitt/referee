@@ -33,6 +33,11 @@ object PlayerService extends Whistle {
     }
   }
 
+  def deletePlayer(id: Long): Boolean = DB.autoCommit { implicit session =>
+    sql"DELETE FROM player WHERE id = $id"
+      .update().apply() == 1
+  }
+
   def getPlayer(email: String): Option[Player] = DB.readOnly { implicit session =>
     sql"SELECT * FROM player WHERE email = $email".map(Player.fromDb).single().apply()
   }

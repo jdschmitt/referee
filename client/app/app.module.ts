@@ -30,6 +30,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { SignUpModalComponent } from './signup-modal/signup-modal.component';
 
 import { PasswordFieldComponent } from './password-field/password-field.component';
+import { PlayerAdminComponent } from './player-admin/player-admin.component';
 
 @NgModule({
   imports:      [
@@ -54,7 +55,8 @@ import { PasswordFieldComponent } from './password-field/password-field.componen
     AddGameModalComponent,
     SettingsComponent,
     SignUpModalComponent,
-    PasswordFieldComponent
+    PasswordFieldComponent,
+    PlayerAdminComponent
   ],
   providers: [
     AuthService,
