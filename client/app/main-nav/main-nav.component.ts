@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 import { SignUpModalComponent } from '../signup-modal/signup-modal.component';
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: 'main-nav',
@@ -8,12 +9,19 @@ import { SignUpModalComponent } from '../signup-modal/signup-modal.component';
   styleUrls: [`./main-nav.component.css`]
 })
 
-export class MainNavComponent implements OnInit {
+export class MainNavComponent {
 
   @ViewChild(LoginModalComponent) loginModal: LoginModalComponent;
   @ViewChild(SignUpModalComponent) signupModal: SignUpModalComponent;
+  _authTokenSubscription: any;
 
-  constructor() { }
+  constructor(
+      private authService: AuthService
+  ) {
+    this._authTokenSubscription = this.authService.authTokenChange.subscribe((token) => {
+      this.authTokenChanged(token);
+    });
+  }
 
   openLoginModal() {
     this.loginModal.open();
@@ -23,6 +31,7 @@ export class MainNavComponent implements OnInit {
     this.signupModal.open();
   }
 
-  ngOnInit() {
+  authTokenChanged(token) {
+    console.log('Update nav bar to reflect authentication state: ' + token)
   }
 }

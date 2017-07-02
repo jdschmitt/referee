@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {BaseService} from "./base.service";
-import {retry} from "rxjs/operator/retry";
 
 @Injectable()
-export class PlayersService extends BaseService{
+export class PlayersService extends BaseService {
 
   URIs = {
     mainPotRanking: '/mainPotRanking',

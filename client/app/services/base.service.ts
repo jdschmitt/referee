@@ -21,12 +21,20 @@ export class BaseService {
     return this.baseURL + uri;
   }
 
+  appendHeaders(paramsMap = {}): Headers {
+    let h: Headers = new Headers(this.headers);
+    _.each(paramsMap, (v: string, k: string, m) => h.append(k, v));
+    return h;
+  }
+
   // Thinking that doing these here may allow caching to be introduced easier in one place
-  get(uri: string, paramsMap = {}) {
+  get(uri: string, paramsMap = {}, headersMap = {}) {
     let params: URLSearchParams = new URLSearchParams();
     _.each(paramsMap, (v: string, k: string, m) => params.set(k, v));
+    let headers = this.appendHeaders(headersMap);
     return this.http.get(this.getURL(uri), {
-      search: params
+      search: params,
+      headers: headers
     });
   }
 

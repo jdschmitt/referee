@@ -1,7 +1,8 @@
-import {Component, ViewChild, OnInit, ViewEncapsulation} from '@angular/core';
-import {AuthService} from "../services/auth.service";
-import {Router} from "@angular/router";
+import { Component, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
+import { AuthService } from "../services/auth.service";
+import { Router } from "@angular/router";
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { Response } from "@angular/http";
 
 export class LoginCreds {
   constructor(
@@ -9,6 +10,10 @@ export class LoginCreds {
     public password: string,
     public token: string
   ) { }
+
+  btoa() {
+    return window.btoa(this.username + ':' + this.password);
+  }
 }
 
 @Component({
@@ -59,15 +64,27 @@ export class LoginModalComponent implements OnInit {
   }
 
   onSubmit() {
-    // TODO Authenticate (get token)
-    let resp = this.authService.login(this.creds);
-    if (resp.success) {
-      this.creds.token = resp.token;
-      // TODO refresh or something to reflect logged in state
-      this.modal.close();
-    }
+    this.authService.login(this.creds,
+        token => {
+          this.loginSuccess(token);
+        },
+        error => {
+          this.loginFailure(error);
+        }
+    );
+  }
 
-    // TODO display login error
-    return false;
+  loginSuccess(token: string) {
+    console.log('Successful login: ' + token)
+    this.modal.close();
+  }
+
+  loginFailure(error: Response) {
+    if (error.status === 401) {
+      // Unauthorized
+      console.log('Authentication failed. Please check username / password and try again.');
+    } else {
+      console.log('Failed to login: ' + error);
+    }
   }
 }
