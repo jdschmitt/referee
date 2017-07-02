@@ -13,7 +13,8 @@ export class AuthResponse {
 @Injectable()
 export class AuthService extends BaseService {
 
-  authToken: string = null;
+  private _isAdmin: boolean = false;
+  private _authToken: string = null;
   authTokenChange: EventEmitter<string> = new EventEmitter<string>();
   URIs = {
     auth: "/auth"
@@ -28,13 +29,33 @@ export class AuthService extends BaseService {
     let call = this.get(this.URIs.auth, {}, headers).map((res:Response) => res.json());
     call.subscribe(
         data => {
-          this.authToken = data.token;
-          this.authTokenChange.next(this.authToken);
+          this.setAuthToken(data.token);
           success(data.token);
           console.log('spinner end');
         },
         error => failure(error)
     );
+  }
+
+  logout() {
+    this.setAuthToken(null);
+  }
+
+  setAuthToken(token) {
+    this._authToken = token;
+    this.authTokenChange.next(token);
+  }
+
+  authToken(): string {
+    return this._authToken;
+  }
+
+  isAdmin(): boolean {
+    return this._isAdmin;
+  }
+
+  isLoggedIn(): boolean {
+    return !_.isNull(this._authToken);
   }
 
 }

@@ -14,6 +14,7 @@ export class MainNavComponent {
   @ViewChild(LoginModalComponent) loginModal: LoginModalComponent;
   @ViewChild(SignUpModalComponent) signupModal: SignUpModalComponent;
   _authTokenSubscription: any;
+  iamAdmin: boolean = false;
 
   constructor(
       private authService: AuthService
@@ -34,4 +35,17 @@ export class MainNavComponent {
   authTokenChanged(token) {
     console.log('Update nav bar to reflect authentication state: ' + token)
   }
+
+  isAdmin() {
+    return this.authService.isAdmin();
+  }
+
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
 }
