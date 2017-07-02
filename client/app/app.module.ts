@@ -31,6 +31,9 @@ import { SignUpModalComponent } from './signup-modal/signup-modal.component';
 
 import { PasswordFieldComponent } from './password-field/password-field.component';
 import { PlayerAdminComponent } from './player-admin/player-admin.component';
+import { MyPicksComponent } from './my-picks/my-picks.component';
+import { GroupPicksComponent } from './group-picks/group-picks.component';
+import { WeeklyWinnersComponent } from './weekly-winners/weekly-winners.component';
 
 @NgModule({
   imports:      [
@@ -56,7 +59,10 @@ import { PlayerAdminComponent } from './player-admin/player-admin.component';
     SettingsComponent,
     SignUpModalComponent,
     PasswordFieldComponent,
-    PlayerAdminComponent
+    PlayerAdminComponent,
+    MyPicksComponent,
+    GroupPicksComponent,
+    WeeklyWinnersComponent
   ],
   providers: [
     AuthService,
