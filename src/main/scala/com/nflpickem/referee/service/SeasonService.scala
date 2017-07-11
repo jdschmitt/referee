@@ -56,6 +56,7 @@ object SeasonService extends Whistle {
   }
 
   def currentSeason: Option[Season] = DB.readOnly { implicit session =>
+    // TODO insert cache here (Guava?)
     sql"""
       SELECT * FROM season ORDER BY first_reg_game_date DESC LIMIT 1;
     """.map(Season.fromDb).single().apply()

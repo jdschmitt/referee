@@ -19,6 +19,7 @@ class RefereeServiceActor extends HttpServiceActor with RefereeAPIService {
 trait RefereeAPIService extends HttpService
   with AuthAPIService
   with GameAPIService
+  with PickAPIService
   with PlayerAPIService
   with SeasonAPIService
   with SettingsAPIService
@@ -46,19 +47,24 @@ trait RefereeAPIService extends HttpService
   def settingsPageRoute: Route =
     path("settings")(getFromResource("webapp/index.html")) ~ getFromResourceDirectory("webapp")
 
+  def weeklyWinnersPageRoute: Route =
+    path("weeklyWinners")(getFromResource("webapp/index.html")) ~ getFromResourceDirectory("webapp")
+
   def route: Route = respondWithHeader(RawHeader("Access-Control-Allow-Origin", "*")) {
     authRoute ~
       gameAdminRoute ~
       gamesRoute ~
       groupPicksRoute ~
       picksRoute ~
+      picksApiRoute ~
       playersRoute ~
       seasonsRoute ~
       secondPotRoute ~
       settingsPageRoute ~
       settingsRoute ~
       teamsRoute ~
-      webappRoute
+      webappRoute ~
+      weeklyWinnersPageRoute
   }
 
 }

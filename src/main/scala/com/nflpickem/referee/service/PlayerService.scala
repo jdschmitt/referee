@@ -42,6 +42,18 @@ object PlayerService extends Whistle {
     sql"SELECT * FROM player WHERE email = $email".map(Player.fromDb).single().apply()
   }
 
+  def getPlayer(id: Long): Option[Player] = DB.readOnly { implicit session =>
+    sql"SELECT * FROM player WHERE id = $id".map(Player.fromDb).single().apply()
+  }
+
+  def getPlayerByAuthToken(token: String): Option[Player] = DB.readOnly { implicit session =>
+    sql"""
+        SELECT p.* FROM player p
+        JOIN auth_token at ON at.player_id = p.id
+        WHERE at.token = $token;
+      """.map(Player.fromDb).single().apply()
+  }
+
   def getHashedPassword(email: String): Option[String] = DB.readOnly { implicit session =>
     sql"SELECT password FROM player WHERE email = $email;"
       .map(_.string("password")).single().apply()
