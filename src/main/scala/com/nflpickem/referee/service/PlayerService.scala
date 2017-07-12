@@ -2,6 +2,7 @@ package com.nflpickem.referee.service
 
 import com.nflpickem.referee.Whistle
 import com.nflpickem.referee.model.{Player, PlayerSignUp, RankedPlayer}
+import org.joda.time.DateTime
 import scalikejdbc._
 
 /**
@@ -46,11 +47,11 @@ object PlayerService extends Whistle {
     sql"SELECT * FROM player WHERE id = $id".map(Player.fromDb).single().apply()
   }
 
-  def getPlayerByAuthToken(token: String): Option[Player] = DB.readOnly { implicit session =>
+  def getPlayerByAuthToken(token: String, now: DateTime): Option[Player] = DB.readOnly { implicit session =>
     sql"""
         SELECT p.* FROM player p
         JOIN auth_token at ON at.player_id = p.id
-        WHERE at.token = $token;
+        WHERE at.token = $token AND at.expiration > $now;
       """.map(Player.fromDb).single().apply()
   }
 

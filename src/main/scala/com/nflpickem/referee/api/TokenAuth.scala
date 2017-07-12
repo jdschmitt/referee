@@ -1,7 +1,8 @@
 package com.nflpickem.referee.api
 
 import com.nflpickem.referee.model.Player
-import com.nflpickem.referee.service.PlayerService
+import com.nflpickem.referee.service.{ClockFactory, PlayerService}
+import org.joda.time.DateTime
 import spray.routing.{Directive1, HttpService}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -16,7 +17,8 @@ trait TokenAuth extends HttpService {
     headerName = "X-Auth-Token"
   ) { token: String =>
     Future {
-      PlayerService.getPlayerByAuthToken(token)
+      val now: DateTime = ClockFactory.getClockService.now
+      PlayerService.getPlayerByAuthToken(token, now)
     }
   }
 

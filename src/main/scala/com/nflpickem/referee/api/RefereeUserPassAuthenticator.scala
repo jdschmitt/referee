@@ -23,7 +23,9 @@ object RefereeUserPassAuthenticator extends UserPassAuthenticator[AuthTokenRespo
       val hashedPassword: Option[String] = PlayerService.getHashedPassword(up.user)
 
       if (player.isDefined && hashedPassword.isDefined && AuthService.validatePassword(up.pass, hashedPassword.get)) {
-        val newToken = AuthToken(playerId = player.get.id.get, token = UUID.randomUUID().toString, expiration = DateTime.now())
+        // tokens expire after 2 hours...probably want to go longer than this.
+        val expiration = DateTime.now().plusHours(2)
+        val newToken = AuthToken(playerId = player.get.id.get, token = UUID.randomUUID().toString, expiration = expiration)
         AuthService.addAuthToken(newToken)
         Some(AuthTokenResponse(newToken.token))
       } else
