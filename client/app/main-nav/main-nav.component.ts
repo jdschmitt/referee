@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 import { SignUpModalComponent } from '../signup-modal/signup-modal.component';
 import { AuthService } from "../services/auth.service";
+import * as _ from 'underscore';
 
 @Component({
   selector: 'main-nav',
@@ -14,7 +15,9 @@ export class MainNavComponent {
   @ViewChild(LoginModalComponent) loginModal: LoginModalComponent;
   @ViewChild(SignUpModalComponent) signupModal: SignUpModalComponent;
   _authTokenSubscription: any;
-  iamAdmin: boolean = false;
+  // TODO Update this from API
+  iamAdmin: boolean = true;
+  loggedIn: boolean = false;
 
   constructor(
       private authService: AuthService
@@ -34,14 +37,7 @@ export class MainNavComponent {
 
   authTokenChanged(token) {
     console.log('Update nav bar to reflect authentication state: ' + token)
-  }
-
-  isAdmin() {
-    return this.authService.isAdmin();
-  }
-
-  isLoggedIn() {
-    return this.authService.isLoggedIn();
+    this.loggedIn = !_.isNull(token);
   }
 
   logout() {

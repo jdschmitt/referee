@@ -17,6 +17,8 @@ object Role {
   }
 }
 
+case class Token(token: String)
+
 case class AuthToken(id: Option[Long] = None, playerId: Long, token: String, expiration: DateTime)
 
 object AuthToken {

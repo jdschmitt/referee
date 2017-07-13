@@ -38,8 +38,10 @@ export class BaseService {
     });
   }
 
-  post(uri: string, json = {}) {
-    return this.http.post(this.getURL(uri), JSON.stringify(json), this.options);
+  post(uri: string, json = {}, headersMap = {}) {
+    let headers = this.appendHeaders(headersMap);
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(this.getURL(uri), JSON.stringify(json), options);
   }
 
   delete(uri: string, paramsMap = {}) {

@@ -14,7 +14,7 @@
       <li routerLinkActive="active"><a routerLink="/picks">My Picks</a></li>
       <li routerLinkActive="active"><a routerLink="/groupPicks">Group Picks</a></li>
       <li routerLinkActive="active"><a routerLink="/weeklyWinners">Weekly Winners</a></li>
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Commish Tools<span class="caret"></span></a>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" *ngIf="iamAdmin">Commish Tools<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a routerLink="/players">Player Admin</a></li>
           <li><a routerLink="/gameAdmin">Game Admin</a></li>
@@ -23,15 +23,15 @@
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a (click)="openSignupModal()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a (click)="openLoginModal()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Profile<span class="caret"></span></a>
+      <li class="dropdown" *ngIf="loggedIn"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Profile<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a (click)="logout()">Logout</a></li>
         </ul>
       </li>
+      <li><a (click)="openSignupModal()" *ngIf="!loggedIn"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a (click)="openLoginModal()" *ngIf="!loggedIn"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
     </ul>
   </div>
 </nav>

@@ -1,7 +1,7 @@
 package com.nflpickem.referee.api
 
 import com.nflpickem.referee.Whistle
-import com.nflpickem.referee.model.{PlayerRole, Role}
+import com.nflpickem.referee.model.{PlayerRole, Role, Token}
 import com.nflpickem.referee.service.AuthService
 import spray.http.StatusCodes
 import spray.routing.authentication.BasicAuth
@@ -37,7 +37,7 @@ trait AuthAPIService extends HttpService with Whistle {
     pathPrefix("api") {
       path("playerRole") {
         post {
-          adminTokenAuth { token =>
+          adminTokenAuth { _ =>
             entity(as[PlayerRole]) { playerRole: PlayerRole =>
               complete {
                 AuthService.addPlayerRole(playerRole)
@@ -49,7 +49,7 @@ trait AuthAPIService extends HttpService with Whistle {
       } ~
       path("roles") {
         post {
-          adminTokenAuth { token =>
+          adminTokenAuth { _ =>
             entity(as[Role]) { role =>
               complete {
                 AuthService.addRole(role)
@@ -61,9 +61,21 @@ trait AuthAPIService extends HttpService with Whistle {
           complete(AuthService.getRoles)
         }
       } ~
-      path("auth") {
-        authenticate(BasicAuth(RefereeUserPassAuthenticator, realm = "referee")) { token =>
-          complete(token)
+      path("login") {
+        post {
+          authenticate(BasicAuth(RefereeUserPassAuthenticator, realm = "referee")) { token =>
+            complete(token)
+          }
+        }
+      } ~
+      path("logout") {
+        post {
+          entity(as[Token]) { token: Token =>
+            complete {
+              AuthService.deleteAuthToken(token)
+              StatusCodes.NoContent
+            }
+          }
         }
       }
     }

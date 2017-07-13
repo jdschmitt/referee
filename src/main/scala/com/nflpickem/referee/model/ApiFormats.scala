@@ -36,6 +36,7 @@ object ApiFormats extends DefaultJsonProtocol {
   }
 
 //  implicit val gameTypeFormat: RootJsonFormat[GameType] = jsonFormat1(GameType.apply)
+  implicit val tokenFormat: RootJsonFormat[Token] = jsonFormat1(Token.apply)
   implicit val teamFormat: RootJsonFormat[Team] = jsonFormat4(Team.apply)
   implicit val gameFormat: RootJsonFormat[Game] = jsonFormat13(Game.apply)
   implicit val playerFormat: RootJsonFormat[Player] = jsonFormat5(Player.apply)

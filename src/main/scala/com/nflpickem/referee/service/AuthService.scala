@@ -1,7 +1,7 @@
 package com.nflpickem.referee.service
 
 import com.nflpickem.referee.Whistle
-import com.nflpickem.referee.model.{AuthToken, PlayerRole, Role}
+import com.nflpickem.referee.model.{AuthToken, PlayerRole, Role, Token}
 import io.github.nremond.SecureHash
 import scalikejdbc._
 
@@ -51,6 +51,12 @@ object AuthService extends Whistle {
         println(s"error while inserting new auth token: ${t.getMessage}")
         token
     }
+  }
+
+  def deleteAuthToken(token: Token): Boolean = DB.autoCommit { implicit session =>
+    val authToken = token.token
+    sql"""DELETE FROM auth_token WHERE token = $authToken;"""
+      .update().apply() == 1
   }
 
   def isAuthTokenValid(playerId: Long, authToken: String): Boolean = DB.readOnly { implicit session =>
