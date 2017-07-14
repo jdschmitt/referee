@@ -3,7 +3,7 @@ package com.nflpickem.referee.api
 import com.nflpickem.referee.Whistle
 import com.nflpickem.referee.model.Player
 import com.nflpickem.referee.service.PickService
-import com.nflpickem.referee.validators.RangeValidator
+import com.nflpickem.referee.validator.RangeValidator
 import spray.routing._
 
 /**

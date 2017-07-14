@@ -3,7 +3,7 @@ package com.nflpickem.referee.api
 import com.nflpickem.referee.Whistle
 import com.nflpickem.referee.model.Game
 import com.nflpickem.referee.service.GameService
-import com.nflpickem.referee.validators.RangeValidator
+import com.nflpickem.referee.validator.RangeValidator
 import spray.http.StatusCodes
 import spray.routing.{HttpService, Route}
 
@@ -40,10 +40,8 @@ trait GameAPIService extends HttpService with Whistle {
             complete {
               if (GameService.deleteGame(id))
                 StatusCodes.NoContent
-              else {
-                log.error(s"Failed to delete game $id")
-                StatusCodes.InternalServerError
-              }
+              else
+                throw new Exception(s"Failed to delete game $id")
             }
           } ~
           get {
