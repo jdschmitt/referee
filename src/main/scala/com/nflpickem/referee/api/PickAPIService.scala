@@ -3,6 +3,7 @@ package com.nflpickem.referee.api
 import com.nflpickem.referee.Whistle
 import com.nflpickem.referee.model.Player
 import com.nflpickem.referee.service.PickService
+import com.nflpickem.referee.validators.RangeValidator
 import spray.routing._
 
 /**
@@ -19,8 +20,7 @@ trait PickAPIService extends TokenAuth with Whistle {
         tokenAuth { player: Player =>
           get {
             parameters('week.as[Int]) { week: Int =>
-              if (week < 1 || week > 19)
-                throw new IllegalArgumentException("Week must be a value 1 - 19")
+              RangeValidator(1, 19).validate("week", week)
               complete(PickService.picksForWeek(player, week))
             }
           }

@@ -2,7 +2,8 @@ package com.nflpickem.referee.api
 
 import com.nflpickem.referee.Whistle
 import com.nflpickem.referee.model.Game
-import com.nflpickem.referee.service.{GameService, SeasonService}
+import com.nflpickem.referee.service.GameService
+import com.nflpickem.referee.validators.RangeValidator
 import spray.http.StatusCodes
 import spray.routing.{HttpService, Route}
 
@@ -19,9 +20,10 @@ trait GameAPIService extends HttpService with Whistle {
       pathPrefix("games") {
         pathEndOrSingleSlash {
           get {
-            parameters('week) { week =>
+            parameters('week.as[Int]) { week: Int =>
               complete {
-                GameService.getGamesForWeek(week.toInt)
+                RangeValidator(1, 19).validate("week", week)
+                GameService.getGamesForWeek(week)
               }
             }
           } ~
@@ -51,7 +53,6 @@ trait GameAPIService extends HttpService with Whistle {
         path("season" / LongNumber) { id =>
           get {
             complete {
-              val seasonId: Long = SeasonService.currentSeason.get.id.get
               GameService.getGamesForSeason(id)
             }
           }
