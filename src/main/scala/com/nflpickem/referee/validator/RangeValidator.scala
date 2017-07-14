@@ -1,4 +1,4 @@
-package com.nflpickem.referee.validators
+package com.nflpickem.referee.validator
 
 /**
   * Created by jason on 7/13/17.
