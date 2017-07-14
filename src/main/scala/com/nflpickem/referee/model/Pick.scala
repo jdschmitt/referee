@@ -22,6 +22,6 @@ object Pick {
   }
 
   def getTeam(rs: WrappedResultSet, prefix: String): Option[Team] = {
-    Some(Team.fromDb(rs, prefix, s"${prefix}_abbreviation", s"${prefix}_market", s"${prefix}_mascot"))
+    Option(Team.fromDb(rs, prefix, s"${prefix}_abbreviation", s"${prefix}_market", s"${prefix}_mascot"))
   }
 }

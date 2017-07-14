@@ -40,7 +40,7 @@ object Game {
     val gameType: String = rs.string("game_type")
     val seasonId: Long = rs.long("season_id")
 
-    Game(Some(id), version, gameTime, awayScore, awayTeam, homeScore, homeTeam, line, offensiveYards, overUnder,
+    Game(Option(id), version, gameTime, awayScore, awayTeam, homeScore, homeTeam, line, offensiveYards, overUnder,
       weekNumber, gameType, seasonId)
   }
 }

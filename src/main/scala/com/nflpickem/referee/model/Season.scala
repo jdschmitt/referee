@@ -11,11 +11,11 @@ case class Season(id: Option[Long], firstRegularGameDate: DateTime, firstPlayoff
 object Season {
 
   def fromDb(rs: WrappedResultSet): Season = {
-    val id = Some(rs.long("id"))
+    val id = rs.long("id")
     val firstRegGameDate = rs.jodaDateTime("first_reg_game_date")
     val firstPlayoffGameDate = rs.jodaDateTime("first_playoff_game_date")
     val superBowlDate = rs.jodaDateTime("super_bowl_date")
-    Season(id, firstRegGameDate, firstPlayoffGameDate, superBowlDate)
+    Season(Option(id), firstRegGameDate, firstPlayoffGameDate, superBowlDate)
   }
 
 }

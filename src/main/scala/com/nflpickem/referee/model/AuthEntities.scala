@@ -13,7 +13,7 @@ object Role {
     val id: Long = rs.long("id")
     val version: Long = rs.long("version")
     val authority: String = rs.string("authority")
-    Role(Some(id), version, authority)
+    Role(Option(id), version, authority)
   }
 }
 
@@ -27,7 +27,7 @@ object AuthToken {
     def playerId: Long = rs.long("player_id")
     def token: String = rs.string("token")
     def expiration: DateTime = rs.jodaDateTime("expiration")
-    AuthToken(Some(id), playerId, token, expiration)
+    AuthToken(Option(id), playerId, token, expiration)
   }
 }
 

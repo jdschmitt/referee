@@ -33,7 +33,7 @@ object SeasonService extends Whistle {
     try {
       val id: Long = insertStmt.updateAndReturnGeneratedKey.apply()
 
-      season.copy(id = Some(id))
+      season.copy(id = Option(id))
 
     } catch {
       case t: Throwable => log.error("Error while inserting new season", t)

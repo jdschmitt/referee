@@ -35,7 +35,7 @@ object GameService extends Whistle {
     try {
       val id: Long = insertStmt.updateAndReturnGeneratedKey.apply()
 
-      game.copy(id = Some(id))
+      game.copy(id = Option(id))
 
     } catch {
       case t: Throwable => log.error("Error while inserting new game", t)

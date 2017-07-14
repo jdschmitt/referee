@@ -19,7 +19,7 @@ trait PlayerAPIService extends HttpService with Whistle {
     Future {
       val actual: SignUpPassword = SettingsService.getSettings.map(_.leaguePassword).get
       if (signUpPassword == actual)
-        Some(signUpPassword)
+        Option(signUpPassword)
       else
         None
     }

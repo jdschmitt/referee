@@ -22,7 +22,7 @@ trait AuthAPIService extends HttpService with Whistle {
   ) { token: String =>
     Future {
       if (token == RefereeEnvConfig.getString("admin-token"))
-        Some(token)
+        Option(token)
       else
         None
     }

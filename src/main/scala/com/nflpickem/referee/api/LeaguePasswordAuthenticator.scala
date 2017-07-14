@@ -45,7 +45,7 @@ object LeaguePasswordAuthenticator extends Whistle {
     def extractPassword: SignUpPasswordExtractor = { ctx: RequestContext =>
       try {
         val playerSignUp: PlayerSignUp = playerSignUpFormat.read(ctx.request.entity.asString.parseJson)
-        Some(playerSignUp.leaguePass)
+        Option(playerSignUp.leaguePass)
       } catch {
         case t: Throwable => log.warn(s"Sign up attempt failed: ${t.getMessage}")
           None

@@ -26,7 +26,7 @@ object PlayerService extends Whistle {
     try {
       val id: Long = stmt.updateAndReturnGeneratedKey.apply()
 
-      Player(Some(id), player)
+      Player(Option(id), player)
     } catch {
       case t: Throwable => log.error("Error while inserting new player", t)
         println(s"error while inserting new player: ${t.getMessage}")

@@ -16,7 +16,7 @@ object AuthService extends Whistle {
     try {
       val id: Long = stmt.updateAndReturnGeneratedKey.apply()
 
-      role.copy(id = Some(id))
+      role.copy(id = Option(id))
 
     } catch {
       case t: Throwable => log.error("Error while inserting new role", t)
@@ -45,7 +45,7 @@ object AuthService extends Whistle {
     try {
       val id: Long = stmt.updateAndReturnGeneratedKey.apply()
 
-      token.copy(id = Some(id))
+      token.copy(id = Option(id))
     } catch {
       case t: Throwable => log.error("Error while inserting new auth token", t)
         println(s"error while inserting new auth token: ${t.getMessage}")

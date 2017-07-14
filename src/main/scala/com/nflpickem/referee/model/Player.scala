@@ -21,7 +21,7 @@ object Player {
     val last = rs.string("last_name")
     val dPick = rs.string("default_pick")
     val email = rs.string("email")
-    Player(Some(id), first, last, email, dPick)
+    Player(Option(id), first, last, email, dPick)
   }
 
 }

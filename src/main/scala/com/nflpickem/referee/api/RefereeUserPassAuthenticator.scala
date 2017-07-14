@@ -27,7 +27,7 @@ object RefereeUserPassAuthenticator extends UserPassAuthenticator[AuthTokenRespo
         val expiration = DateTime.now().plusHours(2)
         val newToken = AuthToken(playerId = player.get.id.get, token = UUID.randomUUID().toString, expiration = expiration)
         AuthService.addAuthToken(newToken)
-        Some(AuthTokenResponse(newToken.token))
+        Option(AuthTokenResponse(newToken.token))
       } else
         None
     }
