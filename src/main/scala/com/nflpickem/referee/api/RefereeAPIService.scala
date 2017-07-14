@@ -2,6 +2,7 @@ package com.nflpickem.referee.api
 
 import akka.actor.{Actor, ActorContext}
 import spray.http.HttpHeaders.RawHeader
+import spray.http.StatusCodes.{BadRequest, InternalServerError}
 import spray.routing._
 
 import scala.concurrent.ExecutionContextExecutor
@@ -11,6 +12,11 @@ import scala.concurrent.ExecutionContextExecutor
   */
 
 class RefereeServiceActor extends HttpServiceActor with RefereeAPIService {
+
+  implicit def exceptionHandler = ExceptionHandler {
+    case ex: IllegalArgumentException => complete(BadRequest -> ex.getMessage)
+    case e: Throwable => complete(InternalServerError, e.getMessage)
+  }
 
   def receive: Actor.Receive = runRoute(route)
 

@@ -18,8 +18,10 @@ trait PickAPIService extends TokenAuth with Whistle {
       path("picks") {
         tokenAuth { player: Player =>
           get {
-            parameters('week) { week =>
-              complete(PickService.picksForWeek(player, week.toInt))
+            parameters('week.as[Int]) { week: Int =>
+              if (week < 1 || week > 19)
+                throw new IllegalArgumentException("Week must be a value 1 - 19")
+              complete(PickService.picksForWeek(player, week))
             }
           }
         }
