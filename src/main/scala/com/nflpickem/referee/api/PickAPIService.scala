@@ -19,9 +19,9 @@ trait PickAPIService extends TokenAuth with Whistle {
       path("picks") {
         tokenAuth { player: Player =>
           get {
-            parameters('week.as[Int]) { week: Int =>
+            parameters('week.as[Int], 'season.?.as[Long]) { (week: Int, season: Long) =>
               RangeValidator(1, 19).validate("week", week)
-              complete(PickService.picksForWeek(player, week))
+              complete(PickService.picksForWeek(player, week, Option(season)))
             }
           }
         }
