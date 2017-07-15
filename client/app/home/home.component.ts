@@ -25,11 +25,10 @@ export class HomeComponent extends BaseComponent implements OnInit {
       data => this.players = data,
       error => console.log("Error calling /mainPotRanking: ", error)
     );
+  }
 
-    this.settingsService.getSettings().subscribe(
-      data => this.commishNote = data.commishNote,
-      error => console.log("Error calling /settings: ", error)
-    );
+  onSettingsLoaded() {
+    this.commishNote = this.settings.commishNote;
   }
 
 }

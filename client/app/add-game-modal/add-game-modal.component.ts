@@ -68,6 +68,7 @@ export class AddGameModalComponent extends BaseComponent implements OnInit {
   getGame() {
     let awayTeam = _.find(this.allTeams, obj => obj.id === parseInt(this.details.awayTeam));
     let homeTeam = _.find(this.allTeams, obj => obj.id === parseInt(this.details.homeTeam));
+    let seasonId = this.settingsService.getSeasonId();
     return {
       "awayTeam": awayTeam,
       "homeTeam": homeTeam,
@@ -76,7 +77,7 @@ export class AddGameModalComponent extends BaseComponent implements OnInit {
       "gameType": this.details.gameType,
       "weekNumber": this.currentWeek,
       "version": 1,
-      "seasonId": 1
+      "seasonId": seasonId
     }
 
   }
