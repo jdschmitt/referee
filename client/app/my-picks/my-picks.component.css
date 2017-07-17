@@ -1,0 +1,20 @@
+#line-header {
+    text-align: center;
+}
+
+.radio-cell {
+    text-align: center;
+}
+
+.line-cell {
+    text-align: center;;
+}
+
+#picks-table-container {
+    margin: auto;
+    width: 60%;
+}
+
+#action-buttons button {
+    float: right;
+}

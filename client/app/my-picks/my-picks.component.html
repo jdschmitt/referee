@@ -1,3 +1,30 @@
 <div>
   <div id="my-picks-header" class="row"><div class="week-header col-sm-12">Week {{currentWeek}}</div></div>
+  <div id="picks-table-container">
+    <table class="table" id="picks-table">
+      <thead>
+      <tr>
+        <th><input type="checkbox" title="Toggle select all"></th>
+        <th>Home</th>
+        <th colspan="3" id="line-header">Line</th>
+        <th>Away</th>
+        <th>Game time (CT)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let game of games">
+        <td><input type="checkbox"></td>
+        <td>{{game.homeTeam.abbreviation}}</td>
+        <td class="radio-cell"><input type="radio" name="pick_{{game.id}}"></td>
+        <td class="line-cell">{{game.line}}</td>
+        <td class="radio-cell"><input type="radio" name="pick_{{game.id}}"></td>
+        <td>{{game.awayTeam.abbreviation}}</td>
+        <td>{{game.gameTime}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div id="action-buttons">
+      <button type="submit" id="btn-submit-picks" class="btn-primary" (click)="submitPicks()">Submit</button>
+    </div>
+  </div>
 </div>
