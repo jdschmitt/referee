@@ -1,4 +1,4 @@
-CREATE TABLE live_score_week
+CREATE TABLE live_score_game
 (
   game_dow VARCHAR(10) NOT NULL,
   game_time VARCHAR(5) NOT NULL,
@@ -15,4 +15,4 @@ CREATE TABLE live_score_week
   season_week VARCHAR(10) NOT NULL,
   season_year INT NOT NULL
 );
-CREATE UNIQUE INDEX live_score_week_nfl_game_id_uindex ON live_score_week (nfl_game_id);
+CREATE UNIQUE INDEX live_score_game_nfl_game_id_uindex ON live_score_game (nfl_game_id);
