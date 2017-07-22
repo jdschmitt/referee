@@ -1,7 +1,7 @@
 package com.nflpickem.referee.api
 
 import akka.actor.{Actor, ActorContext}
-import spray.http.HttpHeaders.RawHeader
+import com.nflpickem.referee.CORSSupport
 import spray.http.StatusCodes.{BadRequest, InternalServerError}
 import spray.routing._
 
@@ -24,6 +24,7 @@ class RefereeServiceActor extends HttpServiceActor with RefereeAPIService {
 
 trait RefereeAPIService extends HttpService
   with AuthAPIService
+  with CORSSupport
   with GameAPIService
   with PickAPIService
   with PlayerAPIService
@@ -56,7 +57,7 @@ trait RefereeAPIService extends HttpService
   def weeklyWinnersPageRoute: Route =
     path("weeklyWinners")(getFromResource("webapp/index.html")) ~ getFromResourceDirectory("webapp")
 
-  def route: Route = respondWithHeader(RawHeader("Access-Control-Allow-Origin", "*")) {
+  def route: Route = cors {
     authRoute ~
       gameAdminRoute ~
       gamesRoute ~
