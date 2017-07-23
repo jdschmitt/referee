@@ -35,6 +35,8 @@ libraryDependencies ++= {
     "io.spray"            %% "spray-client"         % SPRAY_VERSION,
     "io.spray"            %% "spray-routing"        % SPRAY_VERSION,
     "io.spray"            %% "spray-json"           % SPRAY_VERSION,
+    "org.scalaj"          %% "scalaj-http"          % "2.3.0",
+    "org.json4s"          %% "json4s-native"        % "3.5.2",
     "org.scalikejdbc"     %% "scalikejdbc"          % "2.5.0",
     "mysql"               %  "mysql-connector-java" % "5.1.39",
     "com.zaxxer"          %  "HikariCP"             % "2.4.7",
@@ -44,7 +46,7 @@ libraryDependencies ++= {
     "com.typesafe.akka"   %% "akka-actor"           % AKKA_VERSION,
     "com.typesafe.akka"   %% "akka-testkit"         % AKKA_VERSION  % "test",
     "com.typesafe.akka"   %% "akka-slf4j"           % AKKA_VERSION,
-    "org.specs2"          %% "specs2-core"          % "2.3.11"      % "test",
+    "org.scalatest"       %% "scalatest"            % "3.0.1"       % "test",
     "io.github.nremond"   %% "pbkdf2-scala"         % "0.5"
   )
 }
