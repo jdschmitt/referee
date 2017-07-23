@@ -1,6 +1,8 @@
 package com.nflpickem.referee.api
 
 import com.nflpickem.referee.service.{SeasonService, SettingsService}
+import com.nflpickem.referee.util.WeekHelper
+import spray.http.StatusCodes
 import spray.routing.{HttpService, Route}
 
 /**
@@ -23,7 +25,10 @@ trait SettingsAPIService extends HttpService {
       path("currentWeek") {
         get {
           complete {
-            SeasonService.currentWeek
+            SeasonService.currentSeason match {
+              case Some(season) => WeekHelper().currentWeek(season)
+              case None => StatusCodes.NotFound
+            }
           }
         }
       }
