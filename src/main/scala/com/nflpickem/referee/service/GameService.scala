@@ -1,6 +1,7 @@
 package com.nflpickem.referee.service
 
 import com.nflpickem.referee.Whistle
+import com.nflpickem.referee.live.LiveScoreGame
 import com.nflpickem.referee.model.Game
 import scalikejdbc._
 
@@ -12,7 +13,7 @@ object GameService extends Whistle {
   def insertGame(game: Game): Game = DB.autoCommit { implicit session =>
     val insertStmt =
       sql"""
-          INSERT INTO Game(
+          INSERT INTO game(
             version,
             away_team,
             home_team,
@@ -44,6 +45,23 @@ object GameService extends Whistle {
     }
   }
 
+  def updateGame(game: Game): Boolean = DB.autoCommit { implicit session =>
+    require(game.id.isDefined)
+    sql"""
+          UPDATE game
+           SET away_score = $game.awayScore,
+            away_team = $game.awayTeam.id,
+            home_score = $game.homeScore,
+            home_team = $game.homeTeam.id,
+            game_time = $game.gameTime,
+            line = $game.line,
+            offensive_yards = $game.offensiveYards,
+            over_under = $game.overUnder,
+            game_type = $game.gameType
+          WHERE id = $game.id.get
+         """.update().apply() == 1
+  }
+
   def getGamesForWeek(week: Int): Seq[Game] = DB.readOnly { implicit session =>
     // TODO Probably should figure out how to avoid this extra DB query
     val seasonId: Long = SeasonService.currentSeason.get.id.get
@@ -64,6 +82,18 @@ object GameService extends Whistle {
   def getGamesForSeason(seasonId: Long): Seq[Game] = DB.readOnly { implicit session =>
     sql"SELECT * FROM game WHERE season_id = $seasonId ORDER BY game_time ASC;"
         .map(Game.fromDb).list().apply()
+  }
+
+  def getGameFromLiveScoreGame(lsg: LiveScoreGame): Option[Game] = DB.readOnly { implicit session =>
+    sql"""
+          SELECT g.* FROM game g
+          JOIN team ta ON ta.id = g.away_team
+          JOIN team th ON th.id = g.home_team
+          JOIN season s ON s.id = g.season_id
+          WHERE ta.abbreviation = $lsg.awayTeam AND th.abbreviation = $lsg.homeTeam
+            AND YEAR(s.first_reg_game_date) = $lsg.seasonYear
+            AND g.week_number = $lsg.weekNumber
+      """.map(Game.fromDb).single().apply()
   }
 
 }

@@ -1,6 +1,6 @@
 package com.nflpickem.referee.service
 
-import com.nflpickem.referee.model.{Pick, Player}
+import com.nflpickem.referee.model.{Pick, Player, SubmitPick}
 import scalikejdbc._
 
 /**
@@ -20,6 +20,6 @@ object PickService {
     selectStmt.map(Pick.fromDb).list().apply()
   }
 
-  def submitPicks(picks: Seq[Pick]) = ???
+  def submitPicks(picks: Seq[SubmitPick]): Boolean = ???
 
 }

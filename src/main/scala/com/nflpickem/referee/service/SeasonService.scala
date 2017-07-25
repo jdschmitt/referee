@@ -45,6 +45,11 @@ object SeasonService extends Whistle {
       .map(Season.fromDb).single().apply()
   }
 
+  def getSeasonByYear(year: Int): Option[Season] = DB.readOnly { implicit session =>
+    sql"SELECT * FROM season WHERE YEAR(first_reg_game_date) = $year;"
+      .map(Season.fromDb).single().apply()
+  }
+
   def deleteSeason(id: Long): Boolean = DB.autoCommit { implicit session =>
     val deleteStmt =
       sql"""

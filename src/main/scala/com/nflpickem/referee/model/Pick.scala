@@ -8,6 +8,8 @@ import scalikejdbc.WrappedResultSet
 case class Pick(id: Long, gameId: Long, version: Int, isCorrect: Option[Boolean], offensiveYards: Option[Float],
                 overUnder: Option[Float], playerId: Long, teamId: Int)
 
+case class SubmitPick(gameId: Long, playerId: Long, teamId: Int, offensiveYards: Option[Float], overUnder: Option[Float])
+
 object Pick {
   def fromDb(rs:WrappedResultSet): Pick = {
     val id: Long = rs.long("id")

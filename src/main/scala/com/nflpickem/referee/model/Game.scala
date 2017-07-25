@@ -1,6 +1,8 @@
 package com.nflpickem.referee.model
 
-import com.nflpickem.referee.service.TeamService
+import com.nflpickem.referee.live.LiveScoreGame
+import com.nflpickem.referee.service.{SeasonService, TeamService}
+import com.nflpickem.referee.util.WeekHelper
 import org.joda.time.DateTime
 import scalikejdbc.WrappedResultSet
 
@@ -15,7 +17,7 @@ case class Game(
                  awayTeam: Team,
                  homeScore: Option[Int] = None,
                  homeTeam: Team,
-                 line: Float,
+                 line: Option[Float],
                  offensiveYards: Option[Float] = None,
                  overUnder: Option[Float] = None,
                  weekNumber: Int,
@@ -40,8 +42,24 @@ object Game {
     val gameType: String = rs.string("game_type")
     val seasonId: Long = rs.long("season_id")
 
-    Game(Option(id), version, gameTime, awayScore, awayTeam, homeScore, homeTeam, line, offensiveYards, overUnder,
+    Game(Option(id), version, gameTime, awayScore, awayTeam, homeScore, homeTeam, Option(line), offensiveYards, overUnder,
       weekNumber, gameType, seasonId)
+  }
+
+  def apply(lsg: LiveScoreGame): Game = {
+    val awayTeam: Option[Team] = TeamService.getForAbbreviation(lsg.awayTeam)
+    require(awayTeam.isDefined)
+    val homeTeam: Option[Team] = TeamService.getForAbbreviation(lsg.homeTeam)
+    require(homeTeam.isDefined)
+
+    val season: Option[Season] = SeasonService.getSeasonByYear(lsg.seasonYear.toInt)
+    require(season.isDefined)
+
+    val week: Int = lsg.weekNumber
+    val gameTime: DateTime = WeekHelper().dateFromWeekAndDay(week, lsg.gameDow, season.get)
+
+    Game(None, 1, gameTime, lsg.awayScore, awayTeam.get, lsg.homeScore, homeTeam.get, None, None, None,
+      week, lsg.gameType.id, season.get.id.get)
   }
 }
 

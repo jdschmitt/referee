@@ -62,4 +62,22 @@ class WeekHelperTest extends FlatSpec with Matchers {
     tues.dayOfYear().get() shouldEqual expected.dayOfYear().get()
   }
 
+  it should "get date from week 1 and day of week Thu" in {
+    val season: Season = Season(Some(1), new DateTime(2016, 9, 8, 0, 0), new DateTime(2017, 1, 5, 0, 0), new DateTime(2017, 2, 2, 0, 0 ))
+
+    val d: DateTime = helper.dateFromWeekAndDay(1, "Thu", season)
+
+    val expected: DateTime = new DateTime(2016, 9, 8, 0, 0)
+    d.dayOfYear().get() shouldEqual expected.dayOfYear().get()
+  }
+
+  it should "get date from week 2 and day of week Sun" in {
+    val season: Season = Season(Some(1), new DateTime(2016, 9, 8, 0, 0), new DateTime(2017, 1, 5, 0, 0), new DateTime(2017, 2, 2, 0, 0 ))
+
+    val d: DateTime = helper.dateFromWeekAndDay(2, "Sun", season)
+
+    val expected: DateTime = new DateTime(2016, 9, 18, 0, 0)
+    d.dayOfYear().get() shouldEqual expected.dayOfYear().get()
+  }
+
 }
