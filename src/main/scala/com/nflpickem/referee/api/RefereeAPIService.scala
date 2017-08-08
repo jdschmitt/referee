@@ -2,6 +2,7 @@ package com.nflpickem.referee.api
 
 import akka.actor.{Actor, ActorContext}
 import com.nflpickem.referee.CORSSupport
+import com.nflpickem.referee.dao.{SeasonDAO, SeasonDatabase}
 import spray.http.StatusCodes.{BadRequest, InternalServerError}
 import spray.routing._
 
@@ -31,6 +32,10 @@ trait RefereeAPIService extends HttpService
   with SeasonAPIService
   with SettingsAPIService
   with TeamAPIService {
+
+  // TODO Required because more than 1 mixin declares this variable and this prevents the collision. Makes me think that
+  // there is a better way to get at dependencies from traits
+  override val seasonDb: SeasonDatabase = SeasonDAO
 
   override implicit def executionContext: ExecutionContextExecutor = actorRefFactory.dispatcher
 

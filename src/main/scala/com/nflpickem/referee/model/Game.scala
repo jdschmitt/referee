@@ -1,10 +1,6 @@
 package com.nflpickem.referee.model
 
-import com.nflpickem.referee.live.LiveScoreGame
-import com.nflpickem.referee.service.{SeasonService, TeamService}
-import com.nflpickem.referee.util.WeekHelper
 import org.joda.time.DateTime
-import scalikejdbc.WrappedResultSet
 
 /**
   * Created by jason on 3/1/17.
@@ -25,54 +21,17 @@ case class Game(
                  seasonId: Long
                )
 
-object Game {
-  def fromDb(rs:WrappedResultSet): Game = {
-    val id: Long = rs.long("id")
-    val version: Long = rs.long("version")
-    val gameTime: DateTime = rs.jodaDateTime("game_time")
-    val awayScore: Option[Int] = rs.intOpt("away_score")
-    val awayTeam: Team = TeamService.getById(rs.int("away_team")).get
-    val homeScore: Option[Int] = rs.intOpt("home_score")
-    val homeTeam: Team = TeamService.getById(rs.int("home_team")).get
-    val line: Float = rs.float("line")
-    val offensiveYards: Option[Float] = rs.floatOpt("offensive_yards")
-    val overUnder: Option[Float] = rs.floatOpt("over_under")
-    val weekNumber: Int = rs.int("week_number")
-//    val gameType: GameType = GameType(rs.string("game_type"))
-    val gameType: String = rs.string("game_type")
-    val seasonId: Long = rs.long("season_id")
-
-    Game(Option(id), version, gameTime, awayScore, awayTeam, homeScore, homeTeam, Option(line), offensiveYards, overUnder,
-      weekNumber, gameType, seasonId)
-  }
-
-  def apply(lsg: LiveScoreGame): Game = {
-    val awayTeam: Option[Team] = TeamService.getForAbbreviation(lsg.awayTeam)
-    require(awayTeam.isDefined)
-    val homeTeam: Option[Team] = TeamService.getForAbbreviation(lsg.homeTeam)
-    require(homeTeam.isDefined)
-
-    val season: Option[Season] = SeasonService.getSeasonByYear(lsg.seasonYear.toInt)
-    require(season.isDefined)
-
-    val week: Int = lsg.weekNumber
-    val gameTime: DateTime = WeekHelper().dateFromWeekAndDay(week, lsg.gameDow, season.get)
-
-    Game(None, 1, gameTime, lsg.awayScore, awayTeam.get, lsg.homeScore, homeTeam.get, None, None, None,
-      week, lsg.gameType.id, season.get.id.get)
-  }
-}
-
 sealed abstract class GameType(val id: String, val display: String)
 
 object GameType extends (String => GameType) {
-  val allTypes: Set[GameType] = Set(RegularSeason(), AFCWildCard(), NFCWildCard(), AFCDivisional(), NFCDivisional(),
+  val allTypes: Set[GameType] = Set(PreSeason(), RegularSeason(), AFCWildCard(), NFCWildCard(), AFCDivisional(), NFCDivisional(),
     ConferenceChampionship())
   val abbreviationMap: Map[String, GameType] = allTypes.map(g => (g.id, g)).toMap
 
   def apply(id: String): GameType = abbreviationMap(id)
 }
 
+case class PreSeason() extends GameType("PRE", "Preseason")
 case class RegularSeason() extends GameType("REG", "Regular Season")
 case class AFCWildCard() extends GameType("AFC_WC", "AFC wild card")
 case class NFCWildCard() extends GameType("NFC_WC", "NFC wild card")

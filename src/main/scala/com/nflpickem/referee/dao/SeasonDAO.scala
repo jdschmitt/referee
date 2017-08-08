@@ -1,4 +1,4 @@
-package com.nflpickem.referee.service
+package com.nflpickem.referee.dao
 
 import com.nflpickem.referee.Whistle
 import com.nflpickem.referee.model.Season
@@ -7,7 +7,7 @@ import scalikejdbc._
 /**
   * Created by jason on 2/23/17.
   */
-object SeasonService extends Whistle {
+object SeasonDAO extends SeasonDatabase with Whistle {
 
   def getSeasons: Seq[Season] = DB.readOnly { implicit session =>
     sql"""

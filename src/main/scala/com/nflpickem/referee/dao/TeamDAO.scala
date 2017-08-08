@@ -1,4 +1,4 @@
-package com.nflpickem.referee.service
+package com.nflpickem.referee.dao
 
 import com.nflpickem.referee.model.Team
 import scalikejdbc._
@@ -6,7 +6,7 @@ import scalikejdbc._
 /**
   * Created by jason on 3/3/17.
   */
-object TeamService {
+object TeamDAO extends TeamDatabase {
 
   def allTeams: Seq[Team] = DB.readOnly { implicit session =>
     sql"SELECT * FROM team".map(Team.fromDb).list().apply()

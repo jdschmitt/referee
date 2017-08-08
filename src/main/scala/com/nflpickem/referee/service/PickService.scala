@@ -1,5 +1,6 @@
 package com.nflpickem.referee.service
 
+import com.nflpickem.referee.dao.SeasonDAO
 import com.nflpickem.referee.model.{Pick, Player, SubmitPick}
 import scalikejdbc._
 
@@ -10,7 +11,7 @@ object PickService {
 
   def picksForWeek(player: Player, weekNumber: Int, season: Option[Long] = None): Seq[Pick] = DB.readOnly { implicit session =>
     // TODO Probably should figure out how to avoid this extra DB query
-    val seasonId: Long = season.getOrElse(SeasonService.currentSeason.get.id.get)
+    val seasonId: Long = season.getOrElse(SeasonDAO.currentSeason.get.id.get)
     val playerId: Long = player.id.get
     val selectStmt = sql"""
         SELECT * FROM pick p

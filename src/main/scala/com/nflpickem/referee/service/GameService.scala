@@ -1,99 +1,58 @@
 package com.nflpickem.referee.service
 
+import com.google.inject.{Inject, Singleton}
 import com.nflpickem.referee.Whistle
+import com.nflpickem.referee.dao.{SeasonDatabase, TeamDatabase}
 import com.nflpickem.referee.live.LiveScoreGame
-import com.nflpickem.referee.model.Game
-import scalikejdbc._
+import com.nflpickem.referee.model.{Game, Season, Team}
+import com.nflpickem.referee.util.WeekHelper
+import org.joda.time.DateTime
+import scalikejdbc.WrappedResultSet
 
 /**
-  * Created by jason on 3/3/17.
+  * Created by jason on 8/5/17.
   */
-object GameService extends Whistle {
+@Singleton
+class GameService @Inject()(teamDb: TeamDatabase, seasonDb: SeasonDatabase, weekHelper: WeekHelper) extends Whistle {
 
-  def insertGame(game: Game): Game = DB.autoCommit { implicit session =>
-    val insertStmt =
-      sql"""
-          INSERT INTO game(
-            version,
-            away_team,
-            home_team,
-            line,
-            game_time,
-            game_type,
-            week_number,
-            season_id
-          ) VALUES (
-            ${game.version},
-            ${game.awayTeam.id},
-            ${game.homeTeam.id},
-            ${game.line},
-            ${game.gameTime},
-            ${game.gameType},
-            ${game.weekNumber},
-            ${game.seasonId}
-          )
-         """.stripMargin
+  def fromDb(rs:WrappedResultSet): Game = {
+    val id: Long = rs.long("id")
+    val version: Long = rs.long("version")
+    val gameTime: DateTime = rs.jodaDateTime("game_time")
+    val awayScore: Option[Int] = rs.intOpt("away_score")
+    val awayTeam: Team = teamDb.getById(rs.int("away_team")).get
+    val homeScore: Option[Int] = rs.intOpt("home_score")
+    val homeTeam: Team = teamDb.getById(rs.int("home_team")).get
+    val line: Float = rs.float("line")
+    val offensiveYards: Option[Float] = rs.floatOpt("offensive_yards")
+    val overUnder: Option[Float] = rs.floatOpt("over_under")
+    val weekNumber: Int = rs.int("week_number")
+    val gameType: String = rs.string("game_type")
+    val seasonId: Long = rs.long("season_id")
+
+    Game(Option(id), version, gameTime, awayScore, awayTeam, homeScore, homeTeam, Option(line), offensiveYards, overUnder,
+      weekNumber, gameType, seasonId)
+  }
+  
+  def gameFromLiveGame(liveGame: LiveScoreGame): Game = {
     try {
-      val id: Long = insertStmt.updateAndReturnGeneratedKey.apply()
+      val awayTeam: Option[Team] = teamDb.getForAbbreviation(liveGame.awayTeam)
+      require(awayTeam.isDefined)
+      val homeTeam: Option[Team] = teamDb.getForAbbreviation(liveGame.homeTeam)
+      require(homeTeam.isDefined)
 
-      game.copy(id = Option(id))
+      val season: Option[Season] = seasonDb.getSeasonByYear(liveGame.seasonYear.toInt)
+      require(season.isDefined)
 
+      val week: Int = liveGame.weekNumber
+      val gameTime: DateTime = weekHelper.dateFromWeekAndDay(week, liveGame.gameDow, season.get)
+
+      Game(None, 1, gameTime, liveGame.awayScore, awayTeam.get, liveGame.homeScore, homeTeam.get, None, None, None,
+        week, liveGame.gameType.id, season.get.id.get)
     } catch {
-      case t: Throwable => log.error("Error while inserting new game", t)
-        println(s"error while inserting new game: ${t.getMessage}")
-        game
+      case t: Throwable => log.error("Failed to convert live game to game.", t)
+        throw t
     }
-  }
-
-  def updateGame(game: Game): Boolean = DB.autoCommit { implicit session =>
-    require(game.id.isDefined)
-    sql"""
-          UPDATE game
-           SET away_score = $game.awayScore,
-            away_team = $game.awayTeam.id,
-            home_score = $game.homeScore,
-            home_team = $game.homeTeam.id,
-            game_time = $game.gameTime,
-            line = $game.line,
-            offensive_yards = $game.offensiveYards,
-            over_under = $game.overUnder,
-            game_type = $game.gameType
-          WHERE id = $game.id.get
-         """.update().apply() == 1
-  }
-
-  def getGamesForWeek(week: Int): Seq[Game] = DB.readOnly { implicit session =>
-    // TODO Probably should figure out how to avoid this extra DB query
-    val seasonId: Long = SeasonService.currentSeason.get.id.get
-    val selectStmt = sql"SELECT * FROM game WHERE season_id = $seasonId AND week_number = $week"
-    selectStmt.map(Game.fromDb).list().apply()
-  }
-
-  def deleteGame(id: Long): Boolean = DB.autoCommit { implicit session =>
-    sql"DELETE FROM game WHERE id = $id;"
-      .update().apply() == 1
-  }
-
-  def getGame(id: Long): Option[Game] = DB.readOnly { implicit session =>
-    sql"SELECT * FROM game WHERE id = $id"
-        .map(Game.fromDb).single().apply()
-  }
-
-  def getGamesForSeason(seasonId: Long): Seq[Game] = DB.readOnly { implicit session =>
-    sql"SELECT * FROM game WHERE season_id = $seasonId ORDER BY game_time ASC;"
-        .map(Game.fromDb).list().apply()
-  }
-
-  def getGameFromLiveScoreGame(lsg: LiveScoreGame): Option[Game] = DB.readOnly { implicit session =>
-    sql"""
-          SELECT g.* FROM game g
-          JOIN team ta ON ta.id = g.away_team
-          JOIN team th ON th.id = g.home_team
-          JOIN season s ON s.id = g.season_id
-          WHERE ta.abbreviation = $lsg.awayTeam AND th.abbreviation = $lsg.homeTeam
-            AND YEAR(s.first_reg_game_date) = $lsg.seasonYear
-            AND g.week_number = $lsg.weekNumber
-      """.map(Game.fromDb).single().apply()
   }
 
 }

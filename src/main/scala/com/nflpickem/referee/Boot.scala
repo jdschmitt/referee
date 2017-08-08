@@ -2,6 +2,7 @@ package com.nflpickem.referee
 
 import akka.actor.{ActorSystem, Props}
 import akka.io.IO
+import com.google.inject.Guice
 import com.nflpickem.referee.api.RefereeServiceActor
 import com.nflpickem.referee.db.RefereeMySqlConnectionPool
 import org.flywaydb.core.Flyway
@@ -41,6 +42,7 @@ object Referee {
 
   // we need an ActorSystem to host our application in
   implicit val system = ActorSystem("referee")
+  val injector = Guice.createInjector(new RefereeModule)
 
   def startDbConnectionPool(): Unit = {
     RefereeMySqlConnectionPool.startup(MySqlConfig)

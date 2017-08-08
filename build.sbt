@@ -42,10 +42,13 @@ libraryDependencies ++= {
     "com.zaxxer"          %  "HikariCP"             % "2.4.7",
     "joda-time"           %  "joda-time"            % "2.9.7",
     "org.flywaydb"        %  "flyway-core"          % "4.1.1",
+    "net.codingwell"      %% "scala-guice"          % "4.1.0",
+    "com.google.inject.extensions" % "guice-testlib" % "4.1.0"      % "test",
     "io.spray"            %% "spray-testkit"        % SPRAY_VERSION % "test",
     "com.typesafe.akka"   %% "akka-actor"           % AKKA_VERSION,
     "com.typesafe.akka"   %% "akka-testkit"         % AKKA_VERSION  % "test",
     "com.typesafe.akka"   %% "akka-slf4j"           % AKKA_VERSION,
+    "org.mockito"         % "mockito-all"           % "1.10.19"     % "test",
     "org.scalatest"       %% "scalatest"            % "3.0.1"       % "test",
     "io.github.nremond"   %% "pbkdf2-scala"         % "0.5"
   )

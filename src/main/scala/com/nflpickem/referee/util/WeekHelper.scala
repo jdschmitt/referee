@@ -1,13 +1,15 @@
 package com.nflpickem.referee.util
 
+import com.google.inject.{Inject, Singleton}
+import com.nflpickem.referee.dao.{CurrentWeek, SeasonDAO}
 import com.nflpickem.referee.model.Season
-import com.nflpickem.referee.service.{CurrentWeek, SeasonService}
 import org.joda.time._
 
 /**
   * Created by jason on 7/21/17.
   */
-class WeekHelper(clock: ClockService = RefereeClock) {
+@Singleton
+class WeekHelper @Inject()(clock: ClockService) {
 
   // TODO - Not this most efficient way to do this but it works for now
   def firstDayOfWeek(date: DateTime): DateTime = {
@@ -45,7 +47,7 @@ class WeekHelper(clock: ClockService = RefereeClock) {
   }
 
   def currentWeek: Option[CurrentWeek] = {
-    SeasonService.currentSeason match {
+    SeasonDAO.currentSeason match {
       case Some(season) => Option(currentWeek(season))
       case None => None
     }
@@ -92,8 +94,4 @@ class WeekHelper(clock: ClockService = RefereeClock) {
 
   def dowFromString(dow: String): Option[Int] = Option(dowMap(dow.toUpperCase()))
 
-}
-
-object WeekHelper {
-  def apply(clock: ClockService = RefereeClock): WeekHelper = new WeekHelper(clock)
 }

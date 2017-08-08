@@ -1,6 +1,7 @@
 package com.nflpickem.referee.api
 
-import com.nflpickem.referee.service.TeamService
+import com.nflpickem.referee.Referee
+import com.nflpickem.referee.dao.TeamDatabase
 import spray.routing.{HttpService, Route}
 
 /**
@@ -9,14 +10,16 @@ import spray.routing.{HttpService, Route}
 trait TeamAPIService extends HttpService {
 
   import com.nflpickem.referee.model.ApiFormats._
+  import net.codingwell.scalaguice.InjectorExtensions._
   import spray.httpx.SprayJsonSupport._
+  val teamDB: TeamDatabase = Referee.injector.instance[TeamDatabase]
 
   def teamsRoute: Route =
     pathPrefix("api") {
       path("teams") {
         get {
           complete {
-            TeamService.allTeams
+            teamDB.allTeams
           }
         }
       }

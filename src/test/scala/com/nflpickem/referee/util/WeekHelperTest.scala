@@ -1,15 +1,23 @@
 package com.nflpickem.referee.util
 
+import com.google.inject.{Guice, Inject}
+import com.google.inject.testing.fieldbinder.{Bind, BoundFieldModule}
+import com.nflpickem.referee.dao.CurrentWeek
 import com.nflpickem.referee.model.Season
-import com.nflpickem.referee.service.CurrentWeek
 import org.joda.time.DateTime
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.{BeforeAndAfter, FlatSpec, Matchers}
 
 /**
   * Created by jason on 7/21/17.
   */
-class WeekHelperTest extends FlatSpec with Matchers {
-  val helper: WeekHelper = new WeekHelper(TestRefereeClock)
+class WeekHelperTest extends FlatSpec with Matchers with BeforeAndAfter {
+  @Bind val testClock: ClockService = TestRefereeClock
+
+  @Inject var helper: WeekHelper = _
+
+  before {
+    Guice.createInjector(BoundFieldModule.of(this)).injectMembers(this)
+  }
 
   "A helper" should "get return current week is 1 before season starts" in {
     val season: Season = Season(Some(1), new DateTime(2016, 9, 8, 0, 0), new DateTime(2017, 1, 5, 0, 0), new DateTime(2017, 2, 2, 0, 0 ))

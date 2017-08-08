@@ -1,6 +1,6 @@
 package com.nflpickem.referee.model
 
-import com.nflpickem.referee.service.CurrentWeek
+import com.nflpickem.referee.dao.CurrentWeek
 import scalikejdbc.WrappedResultSet
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 

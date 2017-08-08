@@ -1,10 +1,12 @@
 package com.nflpickem.referee.live
 
-import com.nflpickem.referee.{Job, Whistle}
+import com.google.inject.{Inject, Singleton}
 import com.nflpickem.referee.client.APIClient
+import com.nflpickem.referee.dao.{GameDatabase, LiveScoreWeekDatabase}
 import com.nflpickem.referee.model.Game
-import com.nflpickem.referee.service.{GameService, LiveScoreWeekDao}
+import com.nflpickem.referee.service.GameService
 import com.nflpickem.referee.util.Converters._
+import com.nflpickem.referee.{Job, Whistle}
 import org.json4s.DefaultFormats
 import org.json4s.native.JsonMethods.parse
 
@@ -13,7 +15,10 @@ import scalaj.http.HttpResponse
 /**
   * Created by jason on 7/16/17.
   */
-class LiveScoresReader(apiClient: APIClient = APIClient.apply) extends Job with Whistle {
+@Singleton
+class LiveScoresReader @Inject()(gameService: GameService, gameDatabase: GameDatabase, liveScoreWeekDatabase: LiveScoreWeekDatabase, apiClient: APIClient)
+  extends Job
+    with Whistle {
 
   implicit val formats = DefaultFormats
 
@@ -32,12 +37,12 @@ class LiveScoresReader(apiClient: APIClient = APIClient.apply) extends Job with 
   def updateGame(liveGame: LiveScoreGame, game: Game): Game = {
     val newGame: Game = game.copy(awayScore = liveGame.awayTeamScore, homeScore = liveGame.homeTeamScore)
     // Maybe gametime could change??
-    GameService.updateGame(newGame)
+    gameDatabase.updateGame(newGame)
     newGame
   }
 
   def createGame(lsg: LiveScoreGame): Game = {
-    GameService.insertGame(Game(lsg))
+    gameDatabase.insertGame(gameService.gameFromLiveGame(lsg))
   }
 
   override def run: Unit = execute
@@ -45,13 +50,13 @@ class LiveScoresReader(apiClient: APIClient = APIClient.apply) extends Job with 
   def execute: Seq[LiveScoreGame] = {
     readCurrentWeekGames.map { liveGame: LiveScoreGame =>
       val lg: LiveScoreGame = processLiveGame(liveGame)
-      LiveScoreWeekDao.upsert(lg)
+      liveScoreWeekDatabase.upsert(lg)
     }
   }
 
   def processLiveGame(liveGame: LiveScoreGame): LiveScoreGame = {
     try {
-      val g: Game = GameService.getGameFromLiveScoreGame(liveGame) match {
+      val g: Game = gameDatabase.getGameFromLiveScoreGame(liveGame) match {
         case Some(game) => if (liveGame.isFinalScore) updateGame(liveGame, game) else game
         case None => createGame(liveGame)
       }
@@ -64,8 +69,4 @@ class LiveScoresReader(apiClient: APIClient = APIClient.apply) extends Job with 
     }
   }
 
-}
-
-object LiveScoresReader {
-  def apply(apiClient: APIClient = APIClient.apply): LiveScoresReader = new LiveScoresReader(apiClient)
 }

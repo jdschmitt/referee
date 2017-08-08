@@ -1,6 +1,7 @@
 package com.nflpickem.referee.service
 
 import com.nflpickem.referee.Whistle
+import com.nflpickem.referee.dao.SeasonDAO
 import com.nflpickem.referee.model.{Player, PlayerSignUp, RankedPlayer}
 import org.joda.time.DateTime
 import scalikejdbc._
@@ -62,7 +63,7 @@ object PlayerService extends Whistle {
 
   def mainPotRanking(seasonIdOpt: Option[Long] = None): Seq[RankedPlayer] = DB.readOnly { implicit session =>
 
-    val seasonId: Long = SeasonService.currentSeasonId(seasonIdOpt)
+    val seasonId: Long = SeasonDAO.currentSeasonId(seasonIdOpt)
 
     sql"""
        SELECT
@@ -88,7 +89,7 @@ object PlayerService extends Whistle {
   }
 
   def secondPotRanking(seasonIdOpt: Option[Long] = None): Seq[RankedPlayer] = DB.readOnly { implicit session =>
-    val seasonId: Long = SeasonService.currentSeasonId(seasonIdOpt)
+    val seasonId: Long = SeasonDAO.currentSeasonId(seasonIdOpt)
 
     sql"""
        SELECT

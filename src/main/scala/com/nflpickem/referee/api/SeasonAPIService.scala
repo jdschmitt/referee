@@ -1,8 +1,8 @@
 package com.nflpickem.referee.api
 
-import com.nflpickem.referee.Whistle
+import com.nflpickem.referee.{Referee, Whistle}
+import com.nflpickem.referee.dao.SeasonDatabase
 import com.nflpickem.referee.model.Season
-import com.nflpickem.referee.service.SeasonService
 import spray.http.StatusCodes
 import spray.routing.{HttpService, Route}
 
@@ -13,6 +13,8 @@ trait SeasonAPIService extends HttpService with Whistle {
 
   import com.nflpickem.referee.model.ApiFormats._
   import spray.httpx.SprayJsonSupport._
+  import net.codingwell.scalaguice.InjectorExtensions._
+  val seasonDb: SeasonDatabase = Referee.injector.instance[SeasonDatabase]
 
   def seasonsRoute: Route =
     pathPrefix("api") {
@@ -21,18 +23,18 @@ trait SeasonAPIService extends HttpService with Whistle {
           post {
             entity(as[Season]) { season =>
               complete {
-                SeasonService.insertSeason(season)
+                seasonDb.insertSeason(season)
               }
             }
           } ~
           get {
-            complete(SeasonService.getSeasons)
+            complete(seasonDb.getSeasons)
           }
         } ~
         path(LongNumber) { id =>
           delete {
             complete {
-              if (SeasonService.deleteSeason(id))
+              if (seasonDb.deleteSeason(id))
                 StatusCodes.NoContent
               else {
                 log.error(s"Unable to delete season with ID $id")
@@ -41,7 +43,7 @@ trait SeasonAPIService extends HttpService with Whistle {
             }
           } ~
           get {
-            complete(SeasonService.getSeason(id))
+            complete(seasonDb.getSeason(id))
           }
         }
       }

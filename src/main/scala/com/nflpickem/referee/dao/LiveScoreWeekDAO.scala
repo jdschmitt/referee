@@ -1,4 +1,4 @@
-package com.nflpickem.referee.service
+package com.nflpickem.referee.dao
 
 import com.nflpickem.referee.live.LiveScoreGame
 import scalikejdbc._
@@ -6,7 +6,7 @@ import scalikejdbc._
 /**
   * Created by jason on 7/16/17.
   */
-object LiveScoreWeekDao {
+object LiveScoreWeekDAO extends LiveScoreWeekDatabase {
 
   def insert(lg: LiveScoreGame): Boolean = DB.autoCommit { implicit session =>
     sql"""
