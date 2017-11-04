@@ -30,16 +30,14 @@
         <label for="gametime" class="control-label col-sm-3">Game time:</label>
         <div class="col-sm-9">
           <div class='input-group date'>
-            <input type="text" class="form-control"
+            <input class="form-control"
                    required
                    name="gametime"
                    id="gametime"
                    [(ngModel)]="details.gameTime"
-                    ng2-datetime-picker
-                    date-format="MM-DD-YYYY HH:mm"
-                    minute-step="5"
-                    hour="12"
-                    minute='0'
+                   ngui-datetime-picker
+                   date-format="DD-MM-YYYY hh:mm"
+                   minute-step="5"
                    [close-on-select]="false" />
             <span class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
@@ -57,6 +55,7 @@
       </div>
     </modal-body>
     <modal-footer>
+      <a (click)="resetForm();">reset form</a>
       <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
       <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="modal.close()">Save</button>
     </modal-footer>

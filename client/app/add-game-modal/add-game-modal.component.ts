@@ -62,7 +62,12 @@ export class AddGameModalComponent extends BaseComponent implements OnInit {
   }
 
   closed() {
+    this.resetForm();
     // return this.modal.close();
+  }
+
+  resetForm() {
+    this.details = new AddGameDetails(null, null, null, null, null);
   }
 
   getGame() {

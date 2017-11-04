@@ -25,7 +25,7 @@ import { CommonModule } from "@angular/common";
 import { FooterComponent } from './footer/footer.component';
 import { GameAdminComponent } from './game-admin/game-admin.component';
 import { AddGameModalComponent } from './add-game-modal/add-game-modal.component';
-import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
+import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import { SettingsComponent } from './settings/settings.component';
 import { SignUpModalComponent } from './signup-modal/signup-modal.component';
 
@@ -44,7 +44,7 @@ import { WeeklyWinnersComponent } from './weekly-winners/weekly-winners.componen
     Ng2Bs3ModalModule,
     HttpModule,
     JsonpModule,
-    Ng2DatetimePickerModule
+    NguiDatetimePickerModule
   ],
   declarations: [
     AppComponent,

@@ -2,3 +2,7 @@
 .week-header {
     text-align: center;
 }
+
+a {
+    cursor: pointer;
+}
