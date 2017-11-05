@@ -19,9 +19,9 @@ object PlayerService extends Whistle {
     val passDb = AuthService.hashedPassword(player.password)
     val stmt = sql"""
           INSERT INTO player
-            (version, default_pick, email, enabled, first_name, last_name, password, password_expired)
+            (version, default_pick, email, enabled, first_name, last_name, password, password_expired, username)
           VALUES
-            (1, ${player.defaultPick}, ${player.email}, 1, ${player.firstName}, ${player.lastName}, $passDb, 0)
+            (1, ${player.defaultPick}, ${player.email}, 1, ${player.firstName}, ${player.lastName}, $passDb, 0, ${player.email})
       """.stripMargin
 
     try {
