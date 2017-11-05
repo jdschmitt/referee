@@ -36,10 +36,10 @@
                    id="gametime"
                    [(ngModel)]="details.gameTime"
                    ngui-datetime-picker
-                   date-format="DD-MM-YYYY hh:mm"
+                   date-format="MM-DD-YYYY hh:mm"
                    minute-step="5"
                    [close-on-select]="false" />
-            <span class="input-group-addon">
+            <span class="input-group-addon btn-game-time-cal" (click)="showGameTimePicker()">
               <span class="glyphicon glyphicon-calendar"></span>
             </span>
           </div>

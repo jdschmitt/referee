@@ -20,4 +20,8 @@ export class GamesService extends BaseService {
     return this.post(this.URIs.games, game).map((res:Response) => res.json());
   }
 
+  deleteGame(gameId) {
+    return this.delete(`${this.URIs.games}/${gameId}`).map((res:Response) => res.json());
+  }
+
 }

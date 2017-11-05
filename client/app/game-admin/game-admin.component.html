@@ -18,6 +18,12 @@
         <td>{{game.line}}</td>
         <td>{{game.homeTeam.abbreviation}}</td>
         <td>{{game.gameTime}}</td>
+        <td>
+          <button type="button" class="btn btn-danger">
+            <span class="glyphicon glyphicon-remove" (click)="deleteGame(game.id)"></span>
+          </button>
+        </td>
+
       </tr>
       </tbody>
     </table>

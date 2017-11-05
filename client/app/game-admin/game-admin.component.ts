@@ -59,4 +59,11 @@ export class GameAdminComponent extends BaseComponent implements OnInit {
     );
   }
 
+  deleteGame(id: number) {
+    this.gamesService.deleteGame(id).subscribe(
+      data => this.loadGames(),
+      error => console.log(`Error deleting game ${id}`, error)
+    );
+  }
+
 }

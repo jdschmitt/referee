@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, EventEmitter } from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation, EventEmitter} from '@angular/core';
 import { BaseComponent } from '../base.component';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { SettingsService } from '../services/settings.service';
 import { TeamsService } from '../services/teams.service';
 import { GAME_TYPES_COLLECTION } from '../constants';
 import * as _ from 'underscore';
+import * as $ from 'jquery';
 
 export class AddGameDetails {
   constructor(
@@ -27,7 +28,7 @@ export class AddGameModalComponent extends BaseComponent implements OnInit {
 
   @ViewChild(ModalComponent) modal: ModalComponent;
   gameTypes = GAME_TYPES_COLLECTION;
-  details: AddGameDetails = new AddGameDetails(null, null, null, null, null);
+  details: AddGameDetails = new AddGameDetails(null, null, 0, null, 'REG');
   allTeams: any[];
   awayTeams: any[];
   homeTeams: any[];
@@ -53,21 +54,26 @@ export class AddGameModalComponent extends BaseComponent implements OnInit {
     );
   }
 
-  onTeamChange(which) {
+    onTeamChange(which) {
+    console.log('team changed to ' + which);
     // TODO do some validation to prevent the same team to be chosen for away and home.
   }
 
   open() {
+    this.resetForm();
     return this.modal.open();
   }
 
   closed() {
-    this.resetForm();
     // return this.modal.close();
   }
 
   resetForm() {
-    this.details = new AddGameDetails(null, null, null, null, null);
+    this.details = new AddGameDetails(null, null, 0, null, 'REG');
+  }
+
+  static showGameTimePicker() {
+    $('#gametime').focus();
   }
 
   getGame() {
