@@ -1,35 +1,14 @@
-# angular-spray-seed
+# Sam's Referee
 
-This project is an application skeleton for a AngularJS web app embedded to Scala sbt project with Spray backend. Use it to quickly bootstrap your angular-spray webapp projects.
+An Angular website built on top of Akka HTTP in a single repo, deployable to a single Heroku dyno.
 
-Structure of Angular project is taken from angular-seed project.
+## Development
 
-
-## Install
-
-### Clone
-
-Clone repo
-```bash
-$ git clone git://github.com/nemit/angular-spray-seed.git
-```
-
-### Run
-
-Run the following code to start angular-spray-seed project
-```bash
-$ cd angular-spray-seed
-$ sbt run
-```
-
-Run the following code to start angular-spray-seed project with continous buils. Project is automatically updated on any code change!
-```bash
-$ cd angular-spray-seed
-$ sbt ~re-start
-```
-
-### See
-
-* Angular seed application at http://localhost:8080/
-* Spray html example at http://localhost:8080/spray-html
-* Spray json example at http://localhost:8080/spray-json-message
+To run backend and front-end seperately (to take advantage of live reload):
+1. Comment out last line in built.sbt which adds front-end build as a compile dependency (optional but speeds things up)
+2. Run API:
+> sbt compile run
+3. Run web app:
+> npm run start
+4. Open Chrome (OSx) to allow cross-origin stuff:
+> open -a Google\ Chrome --args --disable-web-security --user-data-dir
